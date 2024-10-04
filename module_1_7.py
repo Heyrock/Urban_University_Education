@@ -30,5 +30,5 @@ average_grades = [sum(i) / len(i) for i in grades]
 students = {'Johnny', 'Bilbo', 'Steve', 'Khendrik', 'Aaron'}
 students_alph_order = sorted(list(students))
 
-studets_and_average_grades = dict(zip(students_alph_order, average_grades))
-print(studets_and_average_grades)
+students_and_average_grades = dict(zip(students_alph_order, average_grades))
+print(students_and_average_grades)
