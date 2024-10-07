@@ -55,12 +55,14 @@ for i in numbers:
         for j in range(2, i):
             if i % j == 0:
                 is_prime = False
-                break
+                # break
 
-    if is_prime:
-        primes.append(i)
-    else:
-        not_primes.append(i)
+    # if is_prime:
+    #     primes.append(i)
+    # else:
+    #     not_primes.append(i)
+
+    primes.append(i) if is_prime else not_primes.append(i)
 
 print(f'Primes: {primes}')
 print(f'Not Primes: {not_primes}')
