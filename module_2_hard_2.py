@@ -86,35 +86,18 @@
 # Можно использовать как цикл for, так и цикл while
 # Первое число не входит в одно из чисел пары
 # Пары чисел подбираются от 1 до 20 для текущего числа.
-
-def get_multiples(num):
-    multiples = [i for i in range(3, num + 1) if num % i == 0]
-    print(multiples)
-    return multiples
+def convert(user_list):
+    return ''.join(map(str, user_list))
 
 
-def get_summands():
-    multiples = get_multiples(num=user_number)
-    summands = []
-    for i in multiples:
-        for j in range(1, (i + 1) // 2):
-            summands.append(j)
-            summands.append(i - j)
-    result = ''.join(map(str, summands))
-    return result
+num = int(input('Введите число: '))
+my_list = [i for i in range(3, num + 1) if num % i == 0]
+new_list = []
 
+for i in range(1, (num + 1) // 2):
+    for j in my_list:
+        if i < (j + 1) // 2:
+            new_list.append(i)
+            new_list.append(j - i)
 
-user_number = int(input('Введите число: '))
-print(f'Код: {get_summands()}')
-
-# ИЛИ:
-#
-# n = int(input())
-# result =[]
-# for i in range(1, n):
-#     for j in range(i + 1, n):
-#         if n % (i + j) == 0:
-#             result.append(i)
-#             result.append(j)
-# result=''.join(str(i) for i in result)
-# print(result)
+print(f'Код: {convert(new_list)}')
