@@ -1,12 +1,6 @@
-def func_with_params(a, b=None):
-    if b is None:
-        b = []
-        b.append(a)
-    print(b)
+def print_params(*args):
+    print(*args)
 
-
-[func_with_params(3) for i in range(3)]
-
-# [3]
-# [3, 3]
-# [3, 3, 3]
+dict_ = {'x': 1, 'y': 2, 'z': 3}
+print_params(*dict_)
+# x y z

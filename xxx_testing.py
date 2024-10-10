@@ -1,21 +1,7 @@
-def test(x, y):
-    if check(x, y):
-        print('Ok')
-    elif check_2(x, y):
-        print('X is larger')
-    elif check_3(x, y):
-        print('Y is larger')
-    else:
-        print('Whatever')
+def append_to_list(item, my_list=[]):
+    my_list.append(item)
+    print(my_list)
 
-def check(x, y):
-    return x == y
-
-
-def check_2(x, y):
-    return x > y
-
-def check_3(x, y):
-    return x < y
-
-test(0, 0)
+append_to_list(1) # [1]
+append_to_list(2) # [1, 2]
+append_to_list(3) # [1, 2, 3]
