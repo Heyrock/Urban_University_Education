@@ -73,7 +73,8 @@ def is_contains(
     list_to_search = [
         i.lower() if i.isalpha() else i for i in list_to_search
     ]
-    return True if string in list_to_search else False
+    # return True if string in list_to_search else False
+    return string in list_to_search
 
 
 calls = 0
