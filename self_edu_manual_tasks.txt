@@ -727,8 +727,250 @@ print(f'Количество правильных ответов: {correct}')
 print(f'Число ошибок: {wrong}')
 
 ---------------------------------------------
+# ПРАКТИКА ФУНКЦИИ
+
+# Задание 1
+# Напишите функцию для вывода треугольника.
+# Функция принимает два аргумента – size (размер сторон треугольника)
+# и symb (символ, используемый для заполнения треугольника).
+
+def print_triangle(size, symb):
+    x = size // 2
+    for i in range(x + 1):
+        print(symb * i)
+    for i in range(x + 1,0,-1):
+        print(symb * i)
 
 
+print_triangle(9, '.')
+
+# ИЛИ:
+
+def draw_triangle(size, symb):
+    for i in range(1, size + 1):
+        print(symb * max(i, size - i + 1))
+
+size, symb = 9, '.'
+draw_triangle(size, symb)
+
+
+# Задание 2
+# Напишите функцию, которая принимает произвольное количество целых чисел,
+# и возвращает среднее арифметическое без использования встроенных
+# функции sum() и len().
+def arith_mean(*args):
+    count = 0
+    summa = 0
+    for i in args:
+        count += 1
+        summa += i
+    return summa / count
+
+print(arith_mean(5, 5, 15, 25, 35))
+
+
+# Задание 3
+# Напишите функцию, которая:
+#
+# принимает строку, состоящую из букв, цифр и специальных символов;
+# формирует три списка – 1) из цифр, 2) из букв, 3) из спецсимволов;
+# выводит списки на экран.
+def make_lists(string):
+    digits = [i for i in string if i.isdigit()]
+    letters = [i for i in string if i.isalpha()]
+    symbols = [i for i in string if not i.isalnum()]
+    return digits, letters, symbols
+
+
+my_str = '23edwd893rjf934#$%Ye34F^(*))_+W$#Ddq2ddscew3r'
+for i in make_lists(my_str):
+    print(*i)
+
+
+# Задание 4
+# Напишите функцию, которая начисляет новогодние премии сотрудникам. Эта функция:
+#
+# имеет два аргумента по умолчанию – salary=120000 и bonus=10 (оклад и премия);
+# получает два позиционных аргумента name и last_name – имя и фамилию сотрудника;
+# учитывает индивидуальные оклад и премию (см. примеры вызова);
+# выводит размер новогодней премии для сотрудника и зарплату с учетом премии.
+def ny_bonus(name, last_name, salary=120000, bonus=10):
+    calc_bonus = salary * bonus / 100
+    text = f'Новогодняя премия сотрудника {name} {last_name}: {calc_bonus:.2f} руб.\n' \
+           f'Оклад: {salary:.2f} руб.\n' \
+           f'Всего к выдаче: {salary + calc_bonus:.2f} руб.\n'
+    print(text)
+
+
+ny_bonus('Алина', 'Тимофеева', salary=150000, bonus=25)
+ny_bonus('Алексей', 'Ковалев', bonus=15)
+ny_bonus('Игорь', 'Ефимов')
+ny_bonus('Анастасия', 'Яковлева', salary=100000, bonus=20)
+
+
+# Задание 5
+# Напишите программу, которая выводит Есть, если в полученной от пользователя
+# строке есть хотя бы одно совершенное число, равное сумме своих делителей,
+# и Нет в обратном случае.
+
+def perfect_num(string):
+    my_list = list(map(int, string.split()))
+    nested_list = []
+
+    for i in range(len(my_list)):
+        nested_list.append([])
+        for j in range(1, my_list[i] // 2 + 1):
+            if my_list[i] % j == 0:
+                nested_list[i].append(j)
+
+    print(nested_list)
+    for i in range(len(nested_list)):
+        if sum(nested_list[i]) == my_list[i]:
+            return True
+    return False
+
+my_str = '5 7 8 9 34 28'
+print('Есть' if perfect_num(my_str) else 'Нет')
+
+# ИЛИ:
+
+def perfect_number(n):
+    sum = 0
+    for i in range(1, n):
+        if n % i == 0:
+            sum += i
+    return sum == n
+
+
+my_input = '5 7 8 9 34 28'
+numbers = list(map(int, my_input.split()))
+flag = 'Нет'
+for i in numbers:
+    if perfect_number(i):
+        flag = 'Есть'
+        break
+print(flag)
+
+
+# Задание 6
+# Напишите функцию, которая принимает два позиционных аргумента –
+# натуральные числа n и k, и возвращает значение биномиального
+# коэффициента, не используя math.factorial().
+
+def factorial(num):
+    if num <= 1:
+        return 1
+    return num * factorial(num - 1)
+
+def binomial_coeff(n, k):
+    return int(factorial(n) / (factorial(k) * factorial(n - k)))
+
+n, k = 12, 5
+print(binomial_coeff(n, k))
+
+
+# Задание 7
+# Напишите функцию, которая принимает число от 1 до 99,
+# и возвращает его словесное описание.
+
+def spell_number(num):
+    ed = ['один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять',
+          'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать',
+          'семнадцать', 'восемнадцать', 'девятнадцать']
+    des = ['двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто']
+    if num < 20:
+        return ed[num - 1]
+    elif num >= 20:
+        if str(num)[1] != '0':
+            return des[int(str(num)[0]) - 2] + ' ' + ed[int(str(num)[1]) - 1]
+    return des[int(str(num)[0]) - 2]
+
+n = int(input())
+print(spell_number(n))
+
+
+# Задание 8
+# Напишите функцию, которая возвращает True, если введенная пользователем дата
+# является магической, и False в обратном случае.
+# Магической считается дата, в которой произведение дня и месяца равно двум
+# последним цифрам года: 02.11.2022.
+
+
+def convert(string):
+    return list(map(int, string.split('.')))
+
+
+def last_two_digits(integer):
+    return int(str(integer)[-2:])
+
+
+def magic_number(string):
+    my_list = convert(string)
+    return my_list[0] * my_list[1] == last_two_digits(my_list[2])
+
+
+my_input = '03.06.2018'
+print(magic_number(my_input))
+
+# ИЛИ:
+
+def magic_date(date):
+    return int(date[:2]) * int(date[3:5]) == int(date[-2:])
+
+date = input()
+print(magic_date(date))
+
+
+# Задание 9
+# Напишите функцию, которая принимает произвольное количество именованных
+# аргументов, и формирует из них строку запроса.
+# Аргументы в строке запроса должны быть отсортированы в алфавитном порядке.
+def make_query(**kwargs):
+    string = ''
+    my_list = sorted(kwargs)
+    for i in range(len(my_list)):
+        if i < len(my_list) - 1:
+            string += str(my_list[i]) + '=' + str(kwargs[my_list[i]]) + '&'
+        else:
+            string += str(my_list[i]) + '=' + str(kwargs[my_list[i]])
+    return string
+
+# ИЛИ:
+
+def make_query(**kwargs):
+    return '&'.join([f'{k}={kwargs[k]}' for k in sorted(kwargs)])
+
+
+print(make_query(category='books', genre='thriller', author='Stephen_King'))
+print(make_query(name='Егор', last_name='Тимохин', age=25, occupation='дизайнер'))
+
+
+# Задание 10
+# Напишите функцию, которая принимает целое число n, и выводит на экран
+# спиральную матрицу размера n x n, все элементы которой выровнены по левому краю.
+
+def print_matrix(n):
+    matrix = [[0] * n for _ in range(n)]
+    vx, vy = [0, 1, 0, -1], [1, 0, -1, 0]
+    x, y, z = 0, -1, 1
+    for i in range(n + n - 1):
+        for j in range((n + n - i) // 2):
+            x += vx[i % 4]
+            y += vy[i % 4]
+            matrix[x][y] = z
+            z += 1
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            print(str(matrix[i][j]).ljust(3), end='')
+        print()
+
+print_matrix(5)
+
+# 1  2  3  4  5
+# 16 17 18 19 6
+# 15 24 25 20 7
+# 14 23 22 21 8
+# 13 12 11 10 9
 ---------------------------------------------
 
 ---------------------------------------------
