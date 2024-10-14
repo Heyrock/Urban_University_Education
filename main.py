@@ -1,5 +1,5 @@
-x = 1
-for i in [1, 2, 3, 4, 5]:
-    x *= i
-
-print(x)
+list_1 = (1, 2, 3)
+list_2 = (1, 2, 3)
+print(help(print))
+# ИЛИ
+print(print.__doc__)
