@@ -3,7 +3,8 @@ import os
 search_text = input('Введите текст поиска: ').lower()
 
 # directories = 'Чужие решения. Шпаргалки'
-directories = 'C:\\Users\\Ром\\Documents\\Urban_1'
+# directories = 'C:\\Users\\Ром\\Documents\\Urban_1'
+directories = '..\\Urban_1'
 
 
 # def find_file(cur_path, ending='.txt'):

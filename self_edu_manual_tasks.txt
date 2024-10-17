@@ -1035,21 +1035,320 @@ def iter(n, m):
 iter(12, 8)
 
 
-def pow_recursive(n, m):
+def pow_rec(n, m):
     if m == 1: # граничный случай
         return n
     elif m % 2 == 0: # четный рекурсивный случай
-        res = pow_recursive(n, m // 2)
+        res = pow_rec(n, m // 2)
         return res * res
     else: # нечетный рекурсивный случай
-        res = pow_recursive(n, m // 2)
+        res = pow_rec(n, m // 2)
         return res * res * n
-n, m = int(input()), int(input())
-print(pow_recursive(n, m))
+
+
+print(pow_rec(12, 8))
+print(12 ** 8)
+print(pow_rec(12, 9))
+print(12 ** 9)
+
+
+# Задание 3
+# Напишите программу для нахождения n-го гармонического числа.
+# Решите задачу итеративным и рекурсивным способами.
+def nth_harmonic_iter(n):
+    harmonic = 1.0
+    for i in range(2, n + 1):
+        harmonic += 1 / i
+    return harmonic
+
+print(round(nth_harmonic_iter(7), 5))
+# 2.59286
+
+def nth_harmonic_rec(n):
+    if n == 1: # граничный случай
+        return 1
+    else: # рекурсивный случай
+        return 1 / n + nth_harmonic_rec(n - 1)
+
+print(round(nth_harmonic_rec(7), 5))
+# 2.59286
+
+
+# Задание 4
+# Напишите итеративную и рекурсивную функции для вычисления
+# суммы n первых членов геометрической прогрессии:
+
+def geometric_iter(n):
+    res = 0
+    for i in range(n):
+        res += 1 / 2 ** i
+    return res
+
+print(geometric_iter(int(input())))
+# 9
+# 1.99609375
+
+def geometric_rec(n):
+    if n < 0: # граничный случай
+        return 0
+    else: # рекурсивный случай
+        return 1 / 2 ** n + geometric_rec(n - 1)
+
+print(geometric_rec(int(input())))
+# 9
+# 1.998046875
+
+# Примечание: если знаменатель не равен 1, задачу можно решить с
+# помощью формулы суммы n первых членов геометрической прогрессии:
+b, q, n = 1, 0.5, int(input())
+print(b * (1 - q ** n) / (1 - q))
+# 9
+# 1.99609375
+
+
+import math
+
+def gcd(a, b):
+    while a != 0 and b != 0:
+        if a > b:
+            a = a % b
+        else:
+            b = b % a
+    return (a + b)
+
+print(gcd(18, 30))
+
+# либо:
+print(math.gcd(18, 30))
+
+def gcd_recursive(a, b):
+    min_num = min(a, b)
+    max_num = max(a, b)
+    if min_num == 0:  # граничный случай, когда одно из чисел равно 0
+        return max_num
+    elif min_num == 1:  # граничный случай, когда одно из чисел равно 1
+        return 1
+    else:  # рекурсивный случай, когда ни одно из чисел не равно ни 1, ни 0
+        return gcd_recursive(min_num, max_num % min_num)
+
+
+a, b = int(input()), int(input())
+print(gcd_recursive(a, b))
+# a, b = 18, 30
+# 6
+
+
+# Задание 6
+# Напишите итеративную и рекурсивную функции для вычисления последовательности
+# n + (n – 2) + (n – 4)... (n – x =< 0), где n – натуральное четное число.
+
+def sum_iter(n):
+    summa = 0
+    k = 0
+    while n - k > 0:
+        summa += n - k
+        k += 2
+    return summa
+print(sum_iter(int(input())))
+# print(sum_iter(121))
+# 120
+# 3660
+
+def sum_rec(n):
+    if n < 1: # граничный случай
+        return 0
+    else: # рекурсивный случай
+        return n + sum_rec(n - 2)
+print(sum_rec(int(input())))
+# 120
+# 3660
+
+
+# Задание 7
+# Напишите рекурсивную функцию, которая определяет,
+# является ли введенная пользователем строка палиндромом.
+my_str = 'Лёша на полке клопа нашёл'
+my_list = [i.lower() for i in my_str if i.isalpha()]
+new_str = ''.join(my_list)
+print(new_str == new_str[::-1])
+# True
+
+
+def palindrome_rec(user_str):
+    if len(user_str) == 1 or len(user_str) == 1:
+        return True
+    else:
+        head = user_str[0]
+        mid = user_str[1: -1]
+        tail = user_str[-1]
+        return head == tail and palindrome_rec(mid)
+
+str_ = 'Лёша на полке клопа нашёл'
+st = [i.lower() for i in str_ if i.isalpha()]
+print(palindrome_rec(st))
+# True
+
+
+# Задание 8
+# Напишите рекурсивную функцию для поиска имени, состоящего ровно из 9 букв.
+# Структура родословной, в которой хранятся данные об именах, имеет древовидную форму:
+
+class Node:
+    def __init__(self, data=None, left=None, right=None):
+        self.data = data
+        self.left = left
+        self.right = right
+
+
+def traverse(root):
+    if root is None:
+        return
+
+    traverse(root.left)
+    if len(root.data) == 9:
+        print(f'Имя найдено: {root.data}')
+        return
+
+    traverse(root.right)
+    if len(root.data) == 9:
+        print(f'Имя найдено: {root.data}')
+        return
+
+
+if __name__ == '__main__':
+    root = Node('Анна')
+    root.left = Node('Егор')
+    root.right = Node('Светлана')
+    root.left.left = Node('Мария')
+    root.right.left = Node('Инга')
+    root.right.right = Node('Марина')
+    root.right.left.left = Node('Елизавета')
+    root.right.left.right = Node('Антон')
+
+    traverse(root)
+
+
+root = {'name': 'Анна', 'children': [{'name': 'Егор', 'children':
+[{'name': 'Мария', 'children': []}]}, {'name': 'Светлана',
+'children': [{'name': 'Инга', 'children': [{'name': 'Елизавета',
+'children': []}, {'name': 'Антон', 'children': []}]}, {'name': 'Марина', 'children': []}]}]}
+
+def find_name(node):
+    print(f"Посещаем узел {node['name']}...")
+    print(f"Проверяем, состоит ли имя {node['name']} из 9 букв...")
+    if len(node['name']) == 9:
+        return node['name'] # граничный случай
+
+    if len(node['children']) > 0:  # рекурсивный случай
+        for child in node['children']:
+            returnValue = find_name(child)
+            if returnValue != 'не найдено':
+                return returnValue
+
+    return 'не найдено' # граничный случай - имен из 9 букв нет
+
+print(f"Имя из 9 букв: {find_name(root)}")
+
+
+# Задание 9
+# Имеется многомерный вложенный список:
+# Напишите рекурсивную и итеративную функции для преобразования списка в одномерный.
+sp = [[[5, 7, 2], [4, 9, 5]], [[2, 5, 4]], [[3, 2, 1], [[5], [9, 5]]],
+      [4, 3, 1, 2], [[4, 7, 2], [6, 4]], [[[4, 1, 6], [3, 8]], [4, 5]],
+      [9, 1], [3, 1], [[5, 6], [[4, 2, 1], [2, 5], [[6, 8, 2, 3, 4]]]],
+      [5, 3, 2], [2, [1], 4], [2, 5, [4, 3, 1], 6, 7, [9, 0, 5, 2, 4]],
+      [7, 3, [4]], [4, 2, [[[5, 6, 7], 5, 7]], 1], [3, 4, 6, [6, 4, 5]],
+      ]
+
+
+def flat_list_iter(lst):
+    result = []
+    stack = [lst]
+    while stack:
+        current = stack.pop(-1)
+        if isinstance(current, list):
+            stack.extend(current)
+        else:
+            result.append(current)
+    result.reverse()
+    return result
+
+
+print(flat_list_iter(sp))
+# [5, 7, 2, 4, 9, 5, 2, 5, ..., 4, 6, 6, 4, 5]
+
+
+def flat_list_recur(lst):
+    if lst == []:
+    # if not lst:
+        return lst
+    if isinstance(lst[0], list):
+        return flat_list_recur(lst[0]) + flat_list_recur(lst[1:])
+    return lst[:1] + flat_list_recur(lst[1:])
+
+print(flat_list_recur(sp))
+# [5, 7, 2, 4, 9, 5, 2, 5, ..., 4, 6, 6, 4, 5]
+
+
+# Задание 10
+# Реализуйте алгоритм бинарного поиска с помощью итеративной и рекурсивной функций.
+# Число задается с помощью randrange(2000), в списке хранятся числа от 1 до 1000,
+# т.е. не во всех случаях заданное число будет присутствовать в списке.
+
+from random import randrange
+
+def binary_iter(lst, num):
+    start, end, mid = 0, len(lst) - 1, 0
+
+    while start <= end:
+        mid = (end + start) // 2
+        if lst[mid] < num:
+            start = mid + 1
+        elif lst[mid] > num:
+            end = mid - 1
+        else:
+            return mid
+    return None
+
+sp = [i for i in range(1001)]
+n = randrange(2000)
+
+result = binary_iter(sp, n)
+
+if result:
+    print(f'Число найдено: {result}')
+else:
+    print('Такого числа нет в списке')
+
+from random import randrange
 
 
 
+def binary_recursive(lst, start, end, num):
+    if end >= start:
+        mid = (end + start) // 2
+        if lst[mid] == num:  # граничный случай - элемент находится посередине
+            return mid
 
+        elif lst[mid] > num:  # рекурсивный случай - элемент находится слева
+            return binary_recursive(lst, start, mid - 1, num)
+
+        else:  # рекурсивный случай - элемент находится справа
+            return binary_recursive(lst, mid + 1, end, num)
+
+    else:  # граничный случай - элемент в списке не обнаружен
+        return None
+
+
+sp = [i for i in range(1001)]
+n = randrange(2000)
+
+result = binary_recursive(sp, 0, len(sp) - 1, n)
+
+if result:
+    print(f'Число найдено: {result}')
+else:
+    print('Такого числа нет в списке')
 ---------------------------------------------
 
 ---------------------------------------------

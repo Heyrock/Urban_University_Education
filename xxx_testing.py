@@ -1,24 +1,34 @@
-from timeit import timeit
-import functools
+# def calculate_structure_sum(user_list, new_list=None):
+#     if new_list is None:
+#         new_list = []
+def calculate_structure_sum(user_list, new_list=[]):
+    for item in user_list:
+        if isinstance(item, (list, set, tuple)):
+            print(item)
+            calculate_structure_sum(item)
+        elif isinstance(item, dict):
+            print(item)
+            item = item.items()
+            calculate_structure_sum(item)
+        else:
+            print(item)
+            new_list.append(item)
+    # print(new_list)
+    count = 0
 
-@functools.lru_cache(maxsize=None)
-def kol_les_mem(n, k):
-    if n == 0:
-        return 1
-    ans = 0
-
-    for i in range(k + 1, n + 1):
-        ans += kol_les_mem(n - i,  i)
-    return ans
+    for i in new_list:
+        count += len(i) if isinstance(i, str) else i
+    return count
 
 
-setup_code_mem = 'from __main__ import kol_les_mem'
-stmt_mem = 'kol_les_mem(25, 0)'
-print(
-    'Время выполнения с мемоизацией: ',
-    timeit(
-        setup=setup_code_mem,
-        stmt=stmt_mem,
-        number=20000
-    )
-)
+data_structure = [
+  [1, 2, 3],
+  {'a': 4, 'b': 5},
+  (6, {'cube': 7, 'drum': 8}),
+  "Hello",
+  ((), [{(2, 'Urban', ('Urban2', 35))}])
+]
+
+print(calculate_structure_sum(data_structure))
+
+
