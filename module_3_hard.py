@@ -70,7 +70,7 @@
 #     count = 0
 #     while user_list:
 #         current = user_list.pop(0)
-#         if isinstance(current, (str, int)):
+#         if isinstance(current, (str, int, float)):
 #             new_list.append(current)
 #
 #         elif isinstance(current, (list, tuple, set)):
@@ -81,7 +81,7 @@
 #             user_list.extend(current.values())
 #
 #     for i in new_list:
-#         if isinstance(i, int):
+#         if isinstance(i, (int, float)):
 #             count += i
 #         else:
 #             count += len(i)

@@ -63,26 +63,32 @@
 # 3. Т.к. каждая структура может содержать в себе ещё несколько элементов,
 # можно использовать параметр *args
 # 4. Для определения типа данного используйте функцию isinstance.
-def flat_list_sum(list_):
+
+# СДЕЛАНО ПРИ ПОДДЕРЖКЕ КАМРАДА MAN DMITRY
+def calculate_structure_sum(lst):
     # Если дошли до конца, вернуть ноль
-    if len(list_) == 0:
+    if not lst:
         return 0
 
     # Если элемент списка - список, множество или кортеж - раскрываем его и смотрим дальше
-    elif isinstance(list_[0], (list, tuple, set)):
-        return flat_list_sum(list(list_[0])) + flat_list_sum(list_[1:])
+    elif isinstance(lst[0], (list, tuple, set)):
+        return calculate_structure_sum(list(lst[0])) \
+            + calculate_structure_sum(lst[1:])
 
     # Если элемент списка - словарь, преобразуем в список, раскрываем и смотрим дальше
-    elif isinstance(list_[0], dict):
-        return flat_list_sum(list(list_[0].items())) + flat_list_sum(list_[1:])
+    elif isinstance(lst[0], dict):
+        return calculate_structure_sum(list(lst[0].items())) \
+            + calculate_structure_sum(lst[1:])
 
     # Если элемент списка - число/веществ., возвращаем его и идем дальше
-    elif isinstance(list_[0], (int, float)):
-        return list_[0] + flat_list_sum(list_[1:])
+    elif isinstance(lst[0], (int, float)):
+        return lst[0] \
+            + calculate_structure_sum(lst[1:])
 
     # Если элемент списка - строка, возвращаем ее длину и идем дальше
-    elif isinstance(list_[0], str):
-        return len(list_[0]) + flat_list_sum(list_[1:])
+    elif isinstance(lst[0], str):
+        return len(lst[0]) \
+            + calculate_structure_sum(lst[1:])
 
     else:
         # Для типа данных None (если часть списка)
@@ -97,4 +103,4 @@ data_structure = [
     ((), [{(2, 'Urban', ('Urban2', 35))}])
 ]
 
-print(flat_list_sum(data_structure))
+print(calculate_structure_sum(data_structure))
