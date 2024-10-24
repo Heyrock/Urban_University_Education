@@ -1,1 +1,0 @@
-print('Я в __init__ пакета modules')

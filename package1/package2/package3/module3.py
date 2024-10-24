@@ -17,25 +17,42 @@
 # 54 85 96 82 33 122 35 59 54 412 09 93
 # 9 13 15 10 6 14 8 14 9 16 9 12
 def convert(*args):
-    print(args)
     return (list(map(int, arg.split())) for arg in args)
 
 
 def zipp(*args):
-    lst_1, lst_2 = convert(args)
+    lst_1, lst_2 = args
     length = min(len(lst_1), len(lst_2))
     new_list = []
     for i in range(length):
         new_list.append((lst_1[i], lst_2[i]))
+    return new_list
+
+
+def concatenate(*args):
+    lst_1, lst_2 = args
+    length = min(len(lst_1), len(lst_2))
+    new_list = []
+    for i in range(length):
+        new_list.append(str(lst_1[0]) + str(lst_1[1]))
+    return new_list
 
 
 def my_zip(f):
     def medium(*args):
-        return f(args)
+        return f(*args)
     return medium
+
 
 input_1 = '5 8 9 8 3 12 3 5 5 4 0 9 6 1 23 6 12 30'
 input_2 = '4 5 6 2 3 2 5 9 4 12 9 3'
+joint = convert(input_1, input_2)
+joint2 = convert(input_1, input_2)
 
-x = my_zip(zipp)
-print(x(input_1, input_2))
+
+print(my_zip(zipp)(*joint))
+print(my_zip(zipp)(*joint))
+print(my_zip(concatenate)(*joint2))
+
+
+# print(zipp(list_1, list_2))

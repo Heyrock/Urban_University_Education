@@ -1350,8 +1350,394 @@ if result:
 else:
     print('Такого числа нет в списке')
 ---------------------------------------------
+# ПРАКТИКА LAMBDA
 
+# Задание 1
+# Напишите программу, которая получает от пользователя список, состоящий из целых чисел,
+# и находит произведение его элементов. Решите задачу тремя способами:
+#
+# с помощью reduce и лямбда-функции;
+# с math.prod();
+# с использованием пользовательской функции.
+from functools import reduce
+from math import prod
+
+def my_prod(lst):
+    mult = 1
+    for i in lst:
+        mult *= i
+    return mult
+
+
+my_input = '3 5 6 7 8 2 4 3 4'
+my_input = list(map(int, my_input.split()))
+print(my_input)
+
+print(reduce(lambda x, y: x * y, my_input))
+print(prod(my_input))
+print(my_prod(my_input))
+
+# [3, 5, 6, 7, 8, 2, 4, 3, 4]
+# 483840
+
+
+# Задание 2
+# Напишите программу для сортировки значений словаря в алфавитном порядке.
+
+dict_ = {
+    'фрукт': 'яблоко',
+    'цвет': 'антрацит',
+    'артикул': 'в5678',
+    'модель': 'бабочка',
+    'наименование': 'книга',
+    'жанр': 'триллер'
+}
+sorted_dict = dict(sorted(dict_.items(), key=lambda item: item[1]))
+print(sorted_dict)
+# {
+#     'цвет': 'антрацит',
+#     'модель': 'бабочка',
+#     'артикул': 'в5678',
+#     'наименование': 'книга',
+#     'жанр': 'триллер',
+#     'фрукт': 'яблоко'
+# }
+
+
+# Задание 3
+# Напишите программу, которая получает от пользователя список, и выводит
+# в алфавитном порядке все слова, состоящие из 5 букв.
+# Решите задачу двумя способами – с использованием анонимной функции и
+# с помощью спискового включения.
+
+my_input = 'физалис груша слива арбуз банан апельсин яблоко папайя'
+my_input = my_input.split()
+
+print(*sorted([i for i in my_input if len(i) == 5]))
+print(*sorted(filter(lambda i: len(i) == 5, my_input)))
+
+# арбуз банан груша слива
+# арбуз банан груша слива
+
+
+# Задание 4
+# Напишите программу, которая:
+#
+# определяет текущую дату с помощью datetime.datetime.now();
+# извлекает информацию о дне, месяце и годе с помощью анонимных функций;
+# выводит день, месяц и год на экран.
+
+import datetime
+
+now = datetime.datetime.now()
+date = [
+    ['день', lambda x: x.day],
+    ['месяц', lambda x: x.month],
+    ['год', lambda x: x.year]
+]
+for i in date:
+    print(f'{i[0]}: {i[1](now)}')
+
+
+import datetime
+now = str(datetime.datetime.now())
+date = now.split()[0].split('-')
+print(f'день: {date[2]}'
+      f'\nмесяц: {date[1]}'
+      f'\nгод:  {date[0]}'
+      )
+
+# день: 22
+# месяц: 10
+# год: 2024
+
+
+# Задание 5
+# Напишите программу, которая получает целое число n и
+# выводит n первых элементов последовательности Фибоначчи.
+
+from functools import reduce
+
+fibonacci = lambda n: reduce(lambda x, n: x + [x[-1] + x[-2]], range(n - 2), [0, 1])
+n = int(input())
+print(*fibonacci(n))
+# 0 1 1 2 3 5 8 13 21 34 55 89
+
+
+# Задание 6
+# Напишите программу, которая получает от пользователя две строки
+# с целыми числами и находит пересечение строк
+# (общие для обеих строк элементы) без использования множеств.
+
+my_input1 = '3 6 7 8 9 2 1 0 12 45'
+my_input1 = list(map(int, my_input1.split()))
+my_input2 = '7 9 0 12 15 5 6 11 43'
+my_input2 = list(map(int, my_input2.split()))
+
+print([i for i in my_input1 if i in my_input2])
+print(list(filter(lambda i: i in my_input2, my_input1)))
+
+
+# Задание 7
+# Напишите программу, которая сортирует полученную от пользователя
+# строку с числами следующим образом:
+#
+# отрицательные числа идут после положительных;
+# и положительные, и отрицательные числа упорядочены по возрастанию.
+
+my_input = '-6 -1 3 -5 -15 4 1 9 8 6 -3 -4 12 -10 7'
+my_input = list(map(int, my_input.split()))
+
+print(*sorted(my_input, key=lambda i: 0 if i == 0 else -1 / i))
+
+
+# Задание 8
+# Напишите программу, которая получает от пользователя две строки с числами,
+# и выводит третью строку с поэлементными суммами чисел из первой и второй строк.
+
+my_input1 = '7 2 3 -5 6 7 0 1 12 45 9 33'
+my_input2 = '32 87 12 -2 4 7 1 3 9 2 4 2'
+my_input1 = list(map(int, my_input1.split()))
+my_input2 = list(map(int, my_input2.split()))
+print(*list(map(lambda x, y: x + y, my_input1, my_input2)))
+# 39 89 15 -7 10 14 1 4 21 47 13 35
+
+# Или:
+
+for i, j in zip(my_input1, my_input2):
+    print(i + j, end=' ')
+
+
+# Задание 9
+# Напишите программу, которая получает
+# 1) строку с набором слов;
+# 2) одно слово, не входящее в предыдущую строку,
+# и находит все анаграммы слова в строке.
+
+lst = 'каприз клоун колба колун крона уклон колыбель карта'.split()
+word = 'кулон'
+print(*list(filter(lambda i: sorted(i) == sorted(word), lst)))
+print(*list(filter(lambda x: (set(word) == set(x)), lst)))
+
+# клоун колун уклон
+
+
+# Задание 10
+# Напишите программу для проверки надежности пароля.
+# Надежный пароль должен содержать не менее 9 символов;
+# кроме того, в пароле должна быть хотя бы одна:
+# буква в верхнем регистре;
+# буква в нижнем регистре;
+# цифра;
+# и хотя бы один символа из набора !@#$%^&*()-+.
+
+def check_password(passw):
+    res_dict = [
+    lambda passw: any(x.isupper() for x in passw) or
+                  '\nВ пароле должна быть хотя бы одна буква в верхнем регистре',
+    lambda passw: any(x.islower() for x in passw) or
+                  '\nВ пароле должна быть хотя бы одна буква в нижнем регистре ',
+    lambda passw: any(x.isdigit() for x in passw) or
+                  '\nВ пароле должна быть хотя бы одна цифра',
+    lambda passw: any(x in '!@#$%^&*()-+' for x in passw) or
+                  '\nПароль должен содержать один из спецсимволов !@#$%^&*()-+',
+    lambda passw: len(passw) >= 9 or
+                  '\nПароль должен содержать не менее 9 символов']
+    result = [x for x in [i(passw) for i in res_dict] if x != True]
+    if not result:
+        result.append('Надежный пароль')
+    return result
+
+
+st = input('Введите пароль для проверки: ')
+print(*check_password(st))
 ---------------------------------------------
+# ПРАКТИКА ФУНКЦИИ ВЫСШЕГО ПОРЯДКА, ДЕКОРАТОРЫ, ЗАМЫКАНИЯ
+
+# Задание 1
+# Напишите функцию высшего порядка, которая получает в качестве
+# аргумента две функции первого порядка:
+#
+# Функцию для преобразования текста сообщения в верхний регистр.
+# Функцию для преобразования текста сообщения в нижний регистр.
+def make_upper(str_):
+    return str_.upper()
+
+
+def make_lower(str_):
+    return str_.lower()
+
+
+def transform(func_, str_):
+    return func_(str_)
+
+
+my_input = 'регистр ПРЕОБРАЗОВАН функцией, ПОЛУЧЕННОЙ в качестве АРГУМЕНТА'
+print(transform(make_upper, my_input))
+print(transform(make_lower, my_input))
+
+
+# Задание 2
+# Напишите функцию высшего порядка, которая может принимать функции
+# float(), hex(), bin(), str() и содержит вложенную функцию первого порядка,
+# которая конвертирует полученное от пользователя целое число n в соответствии
+# с полученными функциями.
+#
+# Пример вывода для n = 25:
+# Преобразуем полученное число 25 в типы:
+# float => 25.0
+# bin => 0b11001
+# hex => 0x19
+# str => 25
+
+def number_to(function):
+    def convert(n):
+        return function(n)
+    return convert
+
+
+to_float = number_to(float)
+to_bin = number_to(bin)
+to_hex = number_to(hex)
+to_str = number_to(str)
+
+n = int(input())
+print(f'Преобразуем полученное число {n} в типы:'
+      f'\nfloat => {to_float(n)}'
+      f'\nbin => {to_bin(n)}'
+      f'\nhex => {to_hex(n)}'
+      f'\nstr => {to_str(n)}'
+      )
+
+
+# Задание 3
+# Напишите функцию высшего порядка, которая:
+#
+# - Определяет, состоит ли полученный от пользователя список
+# из четного или нечетного количества чисел.
+# - Возвращает функцию умножения элементов списка (в которой не
+# используется math.prod()), если количество чисел четное.
+# - Возвращает функцию суммирования (в которой не используется
+# встроенная функция sum()), если количество чисел нечетное.
+
+from functools import reduce
+
+
+def convert_to_lst(*args):
+    return (list(map(int, arg.split())) for arg in args)
+
+
+def production(lst):
+    prod = reduce(lambda x, y: x * y, lst)
+    return f'Количество чисел четное, результат: {prod}'
+
+
+def summa(lst):
+    summ = reduce(lambda x, y: x + y, lst)
+    return f'Количество чисел нечетное, результат: {summ}'
+
+
+def higher_order(lst):
+    if len(lst) % 2 == 0:
+        return production
+        # return production(lst)
+    else:
+        return summa
+        # return summa(lst)
+
+
+my_input_1 = '8 9 3 5 1 3 8 2 9'
+my_input_2 = '7 3 2 8 9 1 2 3 4 6'
+
+sp_1, sp_2 = convert_to_lst(my_input_1, my_input_2)
+
+result = higher_order(sp_1) # тут возврат функции
+print(result(sp_1))
+result = higher_order(sp_2) # тут возврат функции
+print(result(sp_2))
+# print(higher_order(sp_1)) # а тут возврат результата функции
+# print(higher_order(sp_2)) # а тут возврат результата функции
+
+
+# Задание 4
+# Напишите собственный аналог функции filter().
+# Для отбора данных my_filter() должна, как и встроенная filter(),
+# использовать функцию-предикат.
+# Функция-предикат возвращает True или False в зависимости от критерия –
+# в нашем случае это факт совпадения первой и последней букв слова в строке,
+# полученной от пользователя.
+def my_filter(f, lst):
+    return [i for i in lst if f(i)]
+
+def pre(str_):
+    return str_[0] == str_[-1]
+
+
+my_input = 'крюк арбуз торт абрикос кулак барабан рупор господин томат мадам'
+my_input = my_input.split()
+print(*my_filter(pre, my_input))
+
+# ИЛИ:
+
+def my_filter(f, line):
+    return [i for i in line if f(i)]
+
+stroka = 'крюк арбуз торт абрикос кулак барабан рупор господин томат мадам'
+stroka = stroka.split()
+print(*my_filter(lambda x: x[0] == x[-1], stroka))
+
+# ИЛИ - МОЙ ВАРИАНТ ПОСЛЕ ОБМОЗГОВКИ
+
+def check(str_):
+    return str_[0] == str_[-1]
+
+
+def my_filter(f):
+    def medium(a):
+        return [x for x in a if f(x)]
+    return medium
+
+
+my_list = 'крюк арбуз торт абрикос кулак барабан рупор господин томат мадам'.split()
+x = my_filter(check)
+print(*x(my_list))
+# ЛИБО
+print(*my_filter(check)(my_list))
+
+# крюк торт кулак рупор томат мадам
+
+
+# Задание 5
+# Напишите собственный вариант функции-агрегатора reduce().
+# Функция при вызове должна получать:
+# - Функцию первого порядка для проведения операции умножения или сложения.
+# - Список чисел от пользователя.
+# - Начальное значение – 0 для операции суммирования, 1 для операции умножения.
+def convert(arg):
+    return list(map(int, arg.split()))
+
+
+def my_reduce(operation, lst, init):
+    result = init
+    for i in lst:
+        result = operation(result, i)
+    return result
+
+
+def add(x, y):
+    return x + y
+
+
+def mult(x, y):
+    return x * y
+
+
+my_list = '5 7 8 3 2 5 8 12 3 5 4 8 9'
+my_list = convert(my_list)
+print(my_reduce(add, my_list, 0)) # 79
+print(my_reduce(mult, my_list, 1)) # 3483648000
+
+
 
 ---------------------------------------------
 
