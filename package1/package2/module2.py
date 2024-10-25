@@ -1,44 +1,20 @@
-# Задание 6
-# В предыдущих статьях мы неоднократно использовали встроенную функцию zip()
-# для параллельной итерации двух наборов данных.
-
-# Напишите функцию высшего порядка, которая возвращает функции для:
-#
-# 1. Группировки параллельных элементов списков с помощью самописной my_zip().
-# 2. Конкатенации элементов, сгрупированных my_zip().
-# 3. Сложения элементов, сгруппированных my_zip().
-
-# Примечание: следует учесть, что получаемые от пользователя списки могут
-# быть разной длины.
-# Как и встроенная zip(), my_zip() должна ограничивать размер возвращаемого
-# списка длиной более короткого набора данных.
-
-# (5, 4) (8, 5) (9, 6) (8, 2) (3, 3) (12, 2) (3, 5) (5, 9) (5, 4) (4, 12) (0, 9) (9, 3)
-# 54 85 96 82 33 122 35 59 54 412 09 93
-# 9 13 15 10 6 14 8 14 9 16 9 12
-def convert(*args):
-    return (list(map(int, arg.split())) for arg in args)
+def add(x):
+    return x + 10
 
 
-def zipp(*args):
-    lst_1, lst_2 = args
-    length = min(len(lst_1), len(lst_2))
-    new_list = []
-    for i in range(length):
-        new_list.append((lst_1[i], lst_2[i]))
-    return new_list
+def multiply(x):
+    return x * 5
 
 
-def my_zip(f):
-    def medium(*args):
-        return f(*args)
-    return medium
+def super_function(function1, function2):
+    return lambda x: function1(function2(x))
 
 
-input_1 = '5 8 9 8 3 12 3 5 5 4 0 9 6 1 23 6 12 30'
-input_2 = '4 5 6 2 3 2 5 9 4 12 9 3'
-joint = convert(input_1, input_2)
-
-
-print(my_zip(zipp)(*joint))
-print(my_zip(zipp)(*joint))
+print(super_function(add, float)('16'))
+print(super_function(tuple, multiply)((3, 4, 5)))
+print(super_function(str, multiply)('55'))
+print(super_function(list, multiply)((1, 2, 3)))
+# 26.0
+# (3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5)
+# 5555555555
+# [1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3]
