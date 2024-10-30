@@ -2025,10 +2025,10 @@ def make_list_concatenation():
     return f'Функция {inspect.stack()[0][3]} завершила работу \n{"-" * 48}'
 
 
-# print(make_list_with_range())
-# print(make_list_comprehension())
-# print(make_list_with_append())
-# print(make_list_concatenation())
+print(make_list_with_range())
+print(make_list_comprehension())
+print(make_list_with_append())
+print(make_list_concatenation())
 #
 # Название функции: make_list_with_range
 # Использованный метод: range()
