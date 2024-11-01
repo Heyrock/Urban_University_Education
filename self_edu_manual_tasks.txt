@@ -2060,8 +2060,666 @@ print(make_list_concatenation())
 # ------------------------------------------------
 
 ---------------------------------------------
+# Практика Классы
+# Задание 1
+# Напишите класс MusicAlbum, у которого есть:
+#
+# Атрибуты title, artist, release_year, genre, tracklist
+# (название, исполнитель, год выхода, жанр, список треков.
+# Метод play_random_track() для вывода случайного названия песни.
+import random
+from random import choice
+
+class MusicAlbum:
+    def __init__(self, title, artist, release_year, genre, tracklist):
+        self.title = title
+        self.artist = artist
+        self.release_year = release_year
+        self.genre = genre
+        self.tracklist = tracklist
+
+    def play_random_track(self):
+        # track_num = choice(range(1, len(self.tracklist) + 1))
+        track_num = random.randint(1, len(self.tracklist))
+        track_name = self.tracklist[track_num - 1]
+        print(f'Воспроизводится трек {track_num}: {track_name}')
 
 
+album4 = MusicAlbum("Deutschland", "Rammstein", 2019, "Neue Deutsche Härte",
+                    ["Deutschland", "Radio", "Zeig dich", "Ausländer", "Sex",
+                     "Puppe", "Was ich liebe", "Diamant", "Weit weg", "Tattoo",
+                     "Hallomann"])
+print("Название:", album4.title)
+print("Исполнитель:", album4.artist)
+print("Год:", album4.release_year)
+print("Жанр:", album4.genre)
+print("Треки:", album4.tracklist)
+album4.play_random_track()
+
+# Название: Deutschland
+# Исполнитель: Rammstein
+# Год: 2019
+# Жанр: Neue Deutsche Härte
+# Треки: ['Deutschland', 'Radio', 'Zeig dich', 'Ausländer', 'Sex', 'Puppe', 'Was ich liebe',
+# 'Diamant', 'Weit weg', 'Tattoo', 'Hallomann']
+# Воспроизводится трек 7: Was ich liebe
+
+
+# Задание 2
+# Создайте класс Student, который имеет:
+#
+# атрибуты name, age, grade, scores (имя, возраст, класс, оценки);
+# метод average_score – для вычисления среднего балла успеваемости.
+class Student:
+    def __init__(self, name, age, grade, scores):
+        self.name = name
+        self.age = age
+        self.grade = grade
+        self.scores = scores
+
+    def average_score(self):
+        av_score = sum(self.scores) / len(self.scores)
+        return av_score
+
+student2 = Student("Егор Данилов", 12, "5B", [5, 4, 4, 5])
+print("Имя:", student2.name)
+print("Возраст:", student2.age)
+print("Класс:", student2.grade)
+print("Оценки:", *student2.scores)
+print("Средний балл:", student2.average_score())
+
+# Имя: Егор Данилов
+# Возраст: 12
+# Класс: 5B
+# Оценки: 5 4 4 5
+# Средний балл: 4.5
+
+
+# Задание 3
+# Напишите класс Recipe с двумя методами:
+#
+# print_ingredients(self) – выводит список продуктов, необходимых для приготовления блюда;
+# cook(self) – сообщает название выбранного рецепта и уведомляет о готовности блюда.
+class Recipe:
+    def __init__(self, name, ingredients):
+        self.name = name
+        self.ingredients = ingredients
+
+    def print_ingredients(self):
+        print(f'Ингредиенты для {self.name}')
+        for i in self.ingredients:
+            print(f'- {i}')
+
+    def cook(self):
+        print(f'Сегодня мы готовим {self.name}.')
+        print(f'Выполняем инструкцию по приготовлению блюда {self.name}...')
+        print(f'Блюдо {self.name} готово!')
+
+
+# создаем рецепт спагетти болоньезе
+spaghetti = Recipe("Спагетти болоньезе", ["Спагетти", "Фарш", "Томатный соус", "Лук", "Чеснок", "Соль"])
+# печатаем список продуктов для рецепта спагетти
+spaghetti.print_ingredients()
+# готовим спагетти
+spaghetti.cook()
+# создаем рецепт для кекса
+cake = Recipe("Кекс", ["Мука", "Яйца", "Молоко", "Сахар", "Сливочное масло", "Соль", "Ванилин"])
+# печатаем рецепт кекса
+cake.print_ingredients()
+# готовим кекс
+cake.cook()
+
+# Ингредиенты для Спагетти болоньезе:
+# - Спагетти
+# - Фарш
+# - Томатный соус
+# - Лук
+# - Чеснок
+# - Соль
+# Сегодня мы готовим Спагетти болоньезе.
+# Выполняем инструкцию по приготовлению блюда Спагетти болоньезе...
+# Блюдо Спагетти болоньезе готово!
+# Ингредиенты для Кекс:
+# - Мука
+# - Яйца
+# - Молоко
+# - Сахар
+# - Сливочное масло
+# - Соль
+# - Ванилин
+# Сегодня мы готовим Кекс.
+# Выполняем инструкцию по приготовлению блюда Кекс...
+# Блюдо Кекс готово!
+
+
+# Задание 4
+# Напишите суперкласс Publisher (издательство) и два подкласса BookPublisher
+# (книжное издательство) и NewspaperPublisher (газетное издательство).
+#
+# Родительский класс Publisher имеет два атрибута name и location
+# (название, расположение) и два метода:
+#
+# get_info(self) – предоставляет информацию о названии и расположении издательства;
+# publish(self, message) – выводит информацию об издании, которое находится в печати.
+
+# Подклассы BookPublisher и NewspaperPublisher используют метод
+# super().__init__(name, location) суперкласса для вывода информации
+# о своих названии и расположении, и кроме того, имеют собственные атрибуты:
+#
+# BookPublisher – num_authors (количество авторов).
+# NewspaperPublisher– num_pages (количество страниц в газете).
+class Publisher:
+    def __init__(self, name, location):
+        self._name = name
+        self._location = location
+
+    def get_info(self):
+        return f'{self._name} ({self._location})'
+
+    def publish(self, message):
+        print(f'Готовим {repr(message)} к публикации в '
+              f'{self.get_info()}')
+
+
+class BookPublisher(Publisher):
+    def __init__(self, name, location, num_authors):
+        super().__init__(name, location)
+        self.num_authors = num_authors
+
+    def publish(self, *args):
+        print(f'Передаем рукопись {repr(args[0])}, '
+              f'написанную автором {args[1]} '
+              f'в {self.get_info()}')
+
+
+class NewspaperPublisher(Publisher):
+    def __init__(self, name, location, num_pages):
+        super().__init__(name, location)
+        self.num_pages = num_pages
+
+    def publish(self, headline):
+        print(f'Печатаем свежий номер со статьей {repr(headline)} '
+              f'на главной странице в издательстве {self.get_info()}')
+
+
+publisher = Publisher("АБВГД Пресс", "Москва")
+publisher.publish("Справочник писателя")
+
+book_publisher = BookPublisher("Важные Книги", "Самара", 52)
+book_publisher.publish("Приключения Чебурашки", "В.И. Пупкин")
+
+newspaper_publisher = NewspaperPublisher("Московские вести", "Москва", 12)
+newspaper_publisher.publish("Новая версия Midjourney будет платной")
+
+# Готовим "Справочник писателя" к публикации в АБВГД Пресс (Москва)
+# Передаем рукопись 'Приключения Чебурашки', написанную автором
+# В.И. Пупкин в издательство Важные Книги (Самара)
+# Печатаем свежий номер со статьей "Новая версия Midjourney будет платной"
+# на главной странице в издательстве Московские вести (Москва)
+
+
+# Задание 5
+# Создайте класс BankAccount, который имеет следующие свойства:
+#
+# balance – приватный атрибут для хранения текущего баланса счета;
+# interest_rate –приватный атрибут для процентной ставки;
+# transactions – приватный атрибут для списка всех операций, совершенных по счету.
+# Класс BankAccount должен иметь следующие методы:
+#
+# deposit(amount) – добавляет сумму к балансу и регистрирует транзакцию;
+# withdraw(amount) – вычитает сумму из баланса и записывает транзакцию;
+# add_interest()– добавляет проценты к счету на основе interest_rate и записывает транзакцию;
+# history()– печатает список всех операций по счету.
+class BankAccount:
+    def __init__(self, balance, interest_rate, transactions=None):
+        self.__balance = balance
+        self.__interest_rate = interest_rate
+        if transactions is None:
+            self.__transactions = []
+
+    def deposit(self, amount):
+        self.__balance += amount
+        self.__transactions.append(
+            f'Внесение наличных на счет: {amount}'
+        )
+
+    def withdraw(self, amount):
+        if self.__balance >= amount:
+            self.__balance -= amount
+            self.__transactions.append(
+                f'Снятие наличных: {amount}'
+            )
+        else:
+            print("Недостаточно средств на счете")
+
+    def add_interest(self):
+        interest = self.__balance * self.__interest_rate
+        self.__balance += interest
+        self.__transactions.append(
+            f'Начислены проценты по вкладу: {interest}'
+        )
+
+    def history(self):
+        for i in self.__transactions:
+            print(i)
+
+# создаем объект счета с балансом 100000 и процентом по вкладу 0.05
+account = BankAccount(100000, 0.05)
+# вносим 15 тысяч на счет
+account.deposit(15000)
+# снимаем 7500 рублей
+account.withdraw(7500)
+# начисляем проценты по вкладу
+account.add_interest()
+# печатаем историю операций
+account.history()
+
+# Внесение наличных на счет: 15000
+# Снятие наличных: 7500
+# Начислены проценты по вкладу: 5375.0
+
+
+# Задание 6
+# Создайте класс Employee (сотрудник), который имеет следующие приватные
+# свойства:
+#
+# name – имя сотрудника;
+# age – возраст;
+# salary – оклад;
+# bonus – премия.
+# Класс Employee должен иметь следующие методы:
+#
+# get_name()– возвращает имя сотрудника;
+# get_age()– возвращает возраст;
+# get_salary() – возвращает зарплату сотрудника;
+# set_bonus(bonus) – устанавливает свойство bonus;
+# get_bonus() – возвращает бонус для сотрудника;
+# get_total_salary() – возвращает общую зарплату сотрудника (оклад + бонус).
+class Employee:
+    def __init__(self, name, age, salary):
+        self.__name = name
+        self.__age = age
+        self.__salary = salary
+        self.__bonus = 0
+
+    def get_name(self):
+        return self.__name
+
+    def get_age(self):
+        return self.__age
+
+    def get_salary(self):
+        return self.__salary
+
+    def set_bonus(self, bonus):
+        self.__bonus = bonus
+
+    def get_bonus(self):
+        return self.__bonus
+
+    def get_total_salary(self):
+        total = self.__salary + self.__bonus
+        return total
+
+# создаем сотрудника с именем, возрастом и зарплатой
+employee = Employee("Марина Арефьева", 30, 90000)
+# устанавливаем бонус для сотрудника
+employee.set_bonus(15000)
+# выводим имя, возраст, зарплату, бонус и общую зарплату сотрудника
+print("Имя:", employee.get_name())
+print("Возраст:", employee.get_age())
+print("Зарплата:", employee.get_salary())
+print("Бонус:", employee.get_bonus())
+print("Итого начислено:", employee.get_total_salary())
+
+# Имя: Марина Арефьева
+# Возраст: 30
+# Зарплата: 90000
+# Бонус: 15000
+# Итого начислено: 105000
+
+
+# Задание 7
+# Напишите класс Animal, обладающий свойствами name, species, legs,
+# в которых хранятся данные о кличке, виде и количестве ног животного.
+# Класс также должен иметь два метода – voice() и move(), которые сообщают
+# о том, что животное подает голос и двигается.
+#
+# Создайте два подкласса – Dog и Bird. Подкласс Dog имеет атрибут breed (порода)
+# и метод bark(), который сообщает о том, что собака лает.
+# Подкласс Bird обладает свойством wingspan (размах крыльев) и методом fly(),
+# который уведомляет о полете птицы.
+class Animal:
+    def __init__(self, name, species, legs):
+        self.name = name
+        self.species = species
+        self.legs = legs
+
+    def voice(self):
+        print(f'{self.name} подает голос')
+
+    def move(self):
+        print(f'{self.name} дергает хвостом')
+
+
+class Dog(Animal):
+    def __init__(self, name, breed, legs):
+        super().__init__(name, breed, legs)
+        self.breed = breed
+
+    def bark(self):
+        print(f'{self.species} {self.name} лает')
+
+
+class Bird(Animal):
+    def __init__(self, name, species, wingspan):
+        super().__init__(name, species, wingspan)
+        self.wingspan = wingspan
+
+    def fly(self):
+        print(f'{self.species} {self.name} летает')
+
+
+dog = Dog("Геральт", "доберман", 4)
+bird = Bird("Вася", "попугай", 2)
+dog.voice()
+bird.voice()
+dog.move()
+bird.move()
+dog.bark()
+bird.fly()
+
+# Геральт подает голос
+# Вася подает голос
+# Геральт дергает хвостом
+# Вася дергает хвостом
+# доберман Геральт лает
+# попугай Вася летaeт
+
+
+# Задание 8
+# Создайте класс Shape (геометрическая фигура) со свойствами name и color
+# (название и цвет).
+# У этого класса должны быть три подкласса – Circle (окружность),
+# Rectangle (прямоугольник), и Triangle (треугольник).
+# Каждый подкласс наследует атрибут color и метод describe()
+# родительского класса Shape, и при этом имеет дополнительные свойства и методы:
+#
+# Circle – атрибут radius и метод area() для вычисления площади.
+# Rectangle – атрибуты length и width, свой метод area().
+# Triangle – атрибуты base и height (основание и высота),
+# собственный метод area().
+class Shape:
+    def __init__(self, color):
+        self.color = color
+
+    def describe(self):
+        print(
+            f"Это геометрическая фигура, цвет - {self.color}."
+        )
+
+
+class Circle(Shape):
+    def __init__(self, color, radius):
+        super().__init__(color)
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+    def describe(self):
+        super().describe()
+        print(
+            f"Это окружность. "
+            f"Радиус - {self.radius} см, "
+            f"цвет - {self.color}."
+        )
+
+
+class Rectangle(Shape):
+    def __init__(self, color, length, width):
+        super().__init__(color)
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.width * self.length
+
+    def describe(self):
+        super().describe()
+        print(
+            f"Это {self.color} прямоугольник. "
+            f"Длина - {self.length} см, "
+            f"ширина - {self.width} см."
+        )
+
+
+class Triangle(Shape):
+    def __init__(self, color, base, height):
+        super().__init__(color)
+        self.base = base
+        self.height = height
+
+    def area(self):
+        return self.base * self.height / 2
+
+    def describe(self):
+        super().describe()
+        print(
+            f"Это {self.color} треугольник с основанием {self.base} см "
+            f"и высотой {self.height} см."
+        )
+
+
+circle = Circle("красный", 5)
+rectangle = Rectangle("синий", 3, 4)
+triangle = Triangle("фиолетовый", 6, 8)
+circle.describe()
+rectangle.describe()
+triangle.describe()
+print(
+    f"Площадь треугольника {triangle.area()}, "
+    f"окружности {circle.area()}, "
+    f"прямоугольника {rectangle.area()} см.")
+
+# Это геометрическая фигура, цвет - красный.
+# Это окружность. Радиус - 5 см, цвет - красный.
+# Это геометрическая фигура, цвет - синий.
+# Это синий прямоугольник. Длина - 3 см, ширина - 4 см.
+# Это геометрическая фигура, цвет - фиолетовый.
+# Это фиолетовый треугольник с основанием 6 см и высотой 8 см.
+# Площадь треугольника 24.0, окружности 78.5, прямоугольника 12 см.
+
+
+# Задание 9
+# Для ПО кондитерской фабрики нужно написать родительский класс Candy (Конфеты).
+# Этот класс имеет атрибуты name, price, weight (наименование, цена, вес).
+#
+# Подклассы Chocolate, Gummy, HardCandy (шоколад, жевательный мармелад, леденец)
+# наследуют все атрибуты суперкласса Candy.
+
+# Кроме того, у них есть и свои атрибуты:
+#
+# Chocolate – cocoa_percentage (процент содержания какао) и
+# chocolate_type (сорт шоколада).
+# Gummy – flavor и shape (вкус и форма).
+# HardCandy – flavor и filled (вкус и начинка).
+class Candy:
+    def __init__(self, name, price, weight):
+        self.name = name
+        self.price = price
+        self.weight = weight
+
+
+class Chocolate(Candy):
+    def __init__(self, name, price, weight, cocoa_percentage, chocolate_type):
+        super().__init__(name, price, weight)
+        self.cocoa_percentage = cocoa_percentage
+        self.chocolate_type = chocolate_type
+
+class Gummy(Candy):
+    def __init__(self, name, price, weight, flavor, shape):
+        super().__init__(name, price, weight)
+        self.flavor = flavor
+        self.shape = shape
+
+
+class HardCandy(Candy):
+    def __init__(self, name, price, weight, flavor, filled):
+        super().__init__(name, price, weight)
+        self.flavor = flavor
+        # if filled is None:
+        self.filled = filled
+
+
+chocolate = Chocolate(
+    name="Швейцарские луга",
+    price=325.50,
+    weight=220,
+    cocoa_percentage=40,
+    chocolate_type="молочный"
+)
+gummy = Gummy(
+    name="Жуй-жуй",
+    price=76.50,
+    weight=50,
+    flavor="вишня",
+    shape="медведь"
+)
+hard_candy = HardCandy(
+    name="Crazy Фрукт",
+    price=35.50,
+    weight=25,
+    flavor="манго",
+    filled=True
+)
+
+print("Шоколадные конфеты:")
+print(f"Название конфет: {chocolate.name}")
+print(f"Стоимость: {chocolate.price} руб")
+print(f"Вес брутто: {chocolate.weight} г")
+print(f"Процент содержания какао: {chocolate.cocoa_percentage}")
+print(f"Тип шоколада: {chocolate.chocolate_type}")
+print("\nМармелад жевательный:")
+print(f"Название конфет: {gummy.name}")
+print(f"Стоимость: {gummy.price} руб")
+print(f"Вес брутто: {gummy.weight} г")
+print(f"Вкус: {gummy.flavor}")
+print(f"Форма: {gummy.shape}")
+print("\nФруктовые леденцы:")
+print(f"Название конфет: {hard_candy.name}")
+print(f"Стоимость: {hard_candy.price} руб")
+print(f"Вес брутто: {hard_candy.weight} г")
+print(f"Вкус: {hard_candy.flavor}")
+print(f"Начинка: {hard_candy.filled}")
+
+# Шоколадные конфеты:
+# Название конфет: Швейцарские луга
+# Стоимость: 325.5 руб
+# Вес брутто: 220 г
+# Процент содержания какао: 40
+# Тип шоколада: молочный
+#
+# Мармелад жевательный:
+# Название конфет: Жуй-жуй
+# Стоимость: 76.5 руб
+# Вес брутто: 50 г
+# Вкус: вишня
+# Форма: медведь
+#
+# Фруктовые леденцы:
+# Название конфет: Crazy Фрукт
+# Стоимость: 35.5 руб
+# Вес брутто: 25 г
+# Вкус: манго
+# Начинка: True
+
+
+# Задание 10
+# Для военной игры-стратегии нужно написать класс Soldier (солдат).
+# Класс имеет атрибуты name, rank и service_number
+# (имя, воинское звание, порядковый номер),
+# причем звание и номер – приватные свойства.
+#
+# Напишите методы для:
+#
+# получения воинского звания;
+# подтверждения порядкового номера;
+# повышения в звании;
+# понижения в звании.
+# Кроме того, нужно создать декоратор для вывода информации о персонаже.
+RANKS = ["рядовой", "ефрейтор", "младший сержант", "сержант", "старший сержант",
+         "прапорщик", "старший прапорщик"]
+
+def print_info(cls):
+    class NewClass(cls):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            print(
+                f"Создан новый игровой персонаж типа {cls.__name__} "
+                f"с атрибутами: {self.__dict__}"
+            )
+
+        # def verify_service_number(self, *args, **kwargs):
+        #     super().verify_service_number(*args, **kwargs)
+        #     print(f'ggg')
+
+        def get_rank(self):
+            print(
+                f"Персонаж {self.name} имеет звание "
+                f"{self._Soldier__rank}"
+            )
+
+        def promote(self):
+            super().promote()
+            print(
+                f"{self.name} повышен в звании, "
+                f"он теперь {self._Soldier__rank}"
+            )
+
+        def demote(self):
+            super().demote()
+            print(
+                f"{self.name} понижен в звании, "
+                f"он теперь {self._Soldier__rank}"
+            )
+
+    return NewClass
+
+
+@print_info
+class Soldier:
+    def __init__(self, name, rank, service_number):
+        self.name = name
+        self.__rank = rank
+        self.__service_number = service_number
+
+    def verify_service_number(self, service_number):
+        return self.__service_number == service_number
+
+    def promote(self):
+        if self.__rank in RANKS[:-1]:
+            self.__rank = RANKS[RANKS.index(self.__rank) + 1]
+
+    def demote(self):
+        if self.__rank in RANKS[1:]:
+            self.__rank = RANKS[RANKS.index(self.__rank) - 1]
+
+
+soldier1 = Soldier("Иван Сусанин", "рядовой", "12345")
+# soldier1.verify_service_number('xxx')
+soldier1.get_rank()
+soldier1.promote()
+soldier1.demote()
+
+# Создан новый игровой персонаж типа Soldier с атрибутами: {
+#     'name': 'Иван Сусанин',
+#     '_Soldier__rank': 'рядовой',
+#     '_Soldier__service_number': '12345'
+# }
+# Персонаж Иван Сусанин имеет звание рядовой
+# Иван Сусанин повышен в звании, он теперь ефрейтор
+# Иван Сусанин понижен в звании, он теперь рядовой
 ---------------------------------------------
 
 ---------------------------------------------

@@ -1,28 +1,46 @@
-def foo(a, *args, b):
-    print(a, args, b)
+RANKS = ["рядовой", "ефрейтор", "младший сержант", "сержант", "старший сержант",
+         "прапорщик", "старший прапорщик"]
 
-tup = (1, 2, 3, 4)
+def print_info(cls):
+    class NewClass(cls):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            print(f"Создан новый игровой персонаж типа {cls.__name__} "
+                  f"с атрибутами: {self.__dict__}")
 
-foo(*tup)
-# 1 (2, 3, 4) 35
+        def get_rank(self):
+            print(f"Персонаж {self.name} имеет звание {self._Soldier__rank}")
 
-foo(1, *tup, b=35)
-# 1 (1, 2, 3, 4) 35
+        def promote(self):
+            super().promote()
+            print(f"{self.name} повышен в звании, он теперь {self._Soldier__rank}")
 
-foo(1, 5, *tup, b=35)
-# 1 (5, 1, 2, 3, 4) 35
+        def demote(self):
+            super().demote()
+            print(f"{self.name} понижен в звании, он теперь {self._Soldier__rank}")
 
-foo(1, *tup, b=35)
-# 1 (1, 2, 3, 4) 35
+    return NewClass
 
-foo(1, b=35)
-# 1 () 35
+@print_info
+class Soldier:
+    def __init__(self, name, rank, service_number):
+        self.name = name
+        self.__rank = rank
+        self.__service_number = service_number
 
-foo(1, 2, b=35)
-# 1 (2,) 35
+    def verify_service_number(self, service_number):
+        return self.__service_number == service_number
 
-foo(1)
-# TypeError: foo() missing 1 required keyword-only argument: 'b'
+    def promote(self):
+        if self.__rank in RANKS[:-1]:
+            self.__rank = RANKS[RANKS.index(self.__rank) + 1]
 
-foo(1, 2, 3)
-# TypeError: foo() missing 1 required keyword-only argument: 'b'
+    def demote(self):
+        if self.__rank in RANKS[1:]:
+            self.__rank = RANKS[RANKS.index(self.__rank) - 1]
+
+
+soldier1 = Soldier("Иван Сусанин", "рядовой", "12345")
+soldier1.get_rank()
+soldier1.promote()
+soldier1.demote()
