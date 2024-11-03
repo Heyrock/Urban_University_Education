@@ -1,17 +1,22 @@
-class CustomNumber:
-    def __init__(self, value):
-        self.value = value
-    def __add__(self, other):
-        if isinstance(other, CustomNumber):
-            return self.value + other.value
-        else:
-            return self.value + other
-    def __radd__(self, other):
-        return self.__add__(other)
+# Задание 8
+# Для ПО аэропорта нужно разработать модуль, отслеживающий
+# пассажирские и грузовые самолеты, которые отличаются моделью,
+# производителем, вместимостью и грузоподъемностью.
+#
+# Создайте базовый класс Aircraft (воздушное судно) с атрибутами model,
+# manufacturer и capacity.
+# Затем создайте два подкласса PassengerAircraft и CargoAircraft,
+# которые наследуют атрибуты и методы от Aircraft и реализуют свои
+# собственные версии метода fly().
+# В дополнение создайте класс Airport, который содержит список самолетов и
+# имеет метод takeoff(), вызывающий метод fly() для каждого самолета.
 
+airport = Airport()
+airport.add_aircraft(PassengerAircraft("Boeing 747", "Боинг", 416))
+airport.add_aircraft(CargoAircraft("Airbus A330", "Эйрбас", 70))
+airport.add_aircraft(PassengerAircraft("Boeing 777", "Боинг", 396))
+airport.takeoff()
 
-a = CustomNumber(5)
-b = CustomNumber(10)
-print(a + b) # Вывод: 15
-print(a + 2) # Вывод: 7
-print(3 + a) # Вывод: 8
+# Пассажирский самолет 'Boeing 747' вместимостью 416 человек, произведенный компанией Боинг, поднимается в воздух с пассажирами на борту.
+# Грузовой самолет 'Airbus A330' с грузоподъемностью 70 т, произведенный компанией Эйрбас, поднимается в воздух с грузом на борту.
+# Пассажирский самолет 'Boeing 777' вместимостью 396 человек, произведенный компанией Боинг, поднимается в воздух с пассажирами на борту.

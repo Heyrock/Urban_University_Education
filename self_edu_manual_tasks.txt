@@ -2721,7 +2721,773 @@ soldier1.demote()
 # Иван Сусанин повышен в звании, он теперь ефрейтор
 # Иван Сусанин понижен в звании, он теперь рядовой
 ---------------------------------------------
+# ПРАКТИКА АБСТРАКЦИЯ И ПОЛИМОРФИЗМ
+
+# Задание 1
+# В далекой-далекой галактике Федерация ведет ожесточенную войну с клингонами.
+# Звездолеты Федерации оснащены мощными фазерами, а клингонские корабли – смертоносными
+# фотонными торпедами.
+#
+# Обе стороны разработали усовершенствованные варп-двигатели для перемещения со
+# сверхсветовой скоростью, и оборудовали свои корабли системами самоуничтожения
+# на случай чрезвычайной ситуации.
+#
+# Для игры, посвященной этой войне, нужно создать абстрактный класс Starship с
+# методами warp_speed(), fire_weapon() и self_destruct(). Кроме того, нужно
+# создать два подкласса FederationStarship и KlingonWarship, которые наследуют
+# абстрактные методы Starship и реализуют свои собственные версии методов warp_speed(),
+# fire_weapon() и self_destruct().
+from abc import ABC, abstractmethod
+
+class Starship(ABC):
+    @abstractmethod
+    def warp_speed(self):
+        pass
+
+    @abstractmethod
+    def fire_weapon(self):
+        pass
+
+    @abstractmethod
+    def self_destruct(self):
+        print('Запускаю систему самоуничтожения...')
+
+
+class FederationStarship(Starship):
+    def warp_speed(self):
+        print('Включить варп-двигатели!')
+
+    def fire_weapon(self):
+        print('Стрелять из фазеров!')
+
+    def self_destruct(self):
+        super().self_destruct()
+
+
+class KlingonWarship(Starship):
+    def warp_speed(self):
+        print('Включить маскировочное устройство!')
+
+    def fire_weapon(self):
+        print('Выпустить фотонные торпеды!')
+
+    def self_destruct(self):
+        super().self_destruct()
+
+
+enterprise = FederationStarship()
+bird_of_prey = KlingonWarship()
+
+enterprise.warp_speed()
+bird_of_prey.warp_speed()
+
+enterprise.fire_weapon()
+bird_of_prey.fire_weapon()
+
+enterprise.self_destruct()
+bird_of_prey.self_destruct()
+
+# Включить варп-двигатели!
+# Включить маскировочное устройство!
+# Стрелять из фазеров!
+# Выпустить фотонные торпеды!
+# Запускаю систему самоуничтожения...
+# Запускаю систему самоуничтожения...
+
+
+# Задание 2
+# Для ПО ресторана нужно разработать модуль, помогающий контролировать
+# использование фруктов и овощей на кухне.
+# Создайте абстрактный класс Ingredient с методами get_name() и
+# get_quantity(). Затем создайте два подкласса Vegetable и Fruit,
+# которые наследуют абстрактные методы от Ingredient и реализуют
+# свои собственные версии методов get_name() и get_quantity().
+from abc import ABC, abstractmethod
+
+
+class Ingredient(ABC):
+    def __init__(self, name, quantity):
+        self._name = name
+        self._quantity = quantity
+
+    @abstractmethod
+    def get_name(self):
+        pass
+
+    @abstractmethod
+    def get_quantity(self):
+        pass
+
+
+class Vegetable(Ingredient):
+    def get_name(self):
+        return f'{self._name}'
+
+    def get_quantity(self):
+        return f'{self._quantity} кг'
+
+
+class Fruit(Ingredient):
+    def get_name(self):
+        return f'{self._name}'
+
+    def get_quantity(self):
+        return f'{self._quantity} кг'
+
+
+carrot = Vegetable("Морковь", 5)
+apple = Fruit("Яблоки", 10)
+
+print(carrot.get_name())
+print(carrot.get_quantity())
+
+print(apple.get_name())
+print(apple.get_quantity())
+
+# Морковь
+# 5 кг
+# Яблоки
+# 10 кг
+
+
+# Задание 3
+
+# Для военной стратегии необходимо создать абстрактный класс Soldier.
+# Каждый солдат должен уметь двигаться, защищаться и атаковать,
+# поэтому Soldier имеет три абстрактных метода: move(), attack() и defend().
+# Два конкретных класса, Infantry (пехота) и Cavalry (кавалерия),
+# будут наследовать и реализовывать эти методы.
+#
+# В игре также должен быть класс Army, который будет добавлять солдат в
+# армию и выполнять операции атаки и защиты.
+#
+# Чтобы гарантировать, что используются только экземпляры класса Soldier,
+# нужно создать декоратор validatesoldier, который будет проверять
+# тип объекта.
+#
+# Если объект не является экземпляром класса Soldier, декоратор выдаст ошибку
+# TypeError.
+# Декоратор будет применяться к методам move(), attack() и defend() классов
+# Infantry и Cavalry.
+from abc import ABC, abstractmethod
+
+
+def validatesoldier(func):
+    def wrapper(self):
+    # def wrapper(*args):
+        if not isinstance(self, Soldier):
+        # if not isinstance(args[0], Soldier):
+            raise TypeError("Объект не является экземпляром Soldier")
+        return func(self)
+        # return func(*args)
+    return wrapper
+
+
+class Soldier(ABC):
+    @abstractmethod
+    def move(self):
+        pass
+
+    @abstractmethod
+    def attack(self):
+        pass
+
+    @abstractmethod
+    def defend(self):
+        pass
+
+
+class Infantry(Soldier):
+    @validatesoldier
+    def move(self):
+        print('Пехота передвигается в пешем порядке')
+
+    @validatesoldier
+    def attack(self):
+        print('Пехота участвует в ближнем бою')
+
+    @validatesoldier
+    def defend(self):
+        print('Пехота держит строй')
+
+
+class Cavalry(Soldier):
+    @validatesoldier
+    def move(self):
+        print('Кавалерия передвигается верхом')
+
+    @validatesoldier
+    def attack(self):
+        print('Кавалерия переходит в атаку')
+
+    @validatesoldier
+    def defend(self):
+        print('Кавалерия защищает фланги')
+
+
+class Army:
+    def __init__(self):
+        self.soldiers = []
+
+    def add_soldier(self, soldier):
+        self.soldiers.append(soldier)
+
+    def attack(self):
+        for soldier in self.soldiers:
+            soldier.move()
+            soldier.attack()
+
+    def defend(self):
+        for soldier in self.soldiers:
+            soldier.move()
+            soldier.defend()
+
+
+army = Army()
+army.add_soldier(Infantry())
+army.add_soldier(Cavalry())
+army.add_soldier(Infantry())
+army.add_soldier(Cavalry())
+
+army.attack()
+army.defend()
+
+# Пехота передвигается в пешем порядке
+# Пехота участвует в ближнем бою
+# Кавалерия передвигается верхом
+# Кавалерия переходит в атаку
+# Пехота передвигается в пешем порядке
+# Пехота участвует в ближнем бою
+# Кавалерия передвигается верхом
+# Кавалерия переходит в атаку
+# Пехота передвигается в пешем порядке
+# Пехота держит строй
+# Кавалерия передвигается верхом
+# Кавалерия защищает фланги
+# Пехота передвигается в пешем порядке
+# Пехота держит строй
+# Кавалерия передвигается верхом
+# Кавалерия защищает фланги
+
+
+# Задание 4
+# Палеонтологам, работающим в заповеднике для динозавров, понадобилось ПО
+# для отслеживания множества травоядных и плотоядных подопечных.
+# Данные, которые нужно учитывать по каждому динозавру – имя, вид, рост,
+# вес и рацион питания.
+#
+# Создайте абстрактный класс Dinosaur с методами get_personal_name(),
+# get_breed(), get_height(), get_weight() и get_diet().
+# Затем создайте два подкласса Carnivore (плотоядный) и Herbivore
+# (травоядный), которые наследуют методы Dinosaur и реализуют свои
+# собственные версии get_personal_name(), get_breed(), get_height(),
+# get_weight() и get_diet().
+#
+# Кроме того, создайте класс DinosaurPark, который содержит список
+# динозавров и имеет методы list_dinosaurs(), list_carnivores() и
+# list_herbivores() для вывода списков
+# a) всех динозавров,
+# b) плотоядных и
+# c) травоядных особей.
+from abc import ABC, abstractmethod
+
+
+class Dinosaur(ABC):
+    @abstractmethod
+    def get_personal_name(self):
+        pass
+
+    @abstractmethod
+    def get_breed(self):
+        pass
+
+    @abstractmethod
+    def get_height(self):
+        pass
+
+    @abstractmethod
+    def get_weight(self):
+        pass
+
+    @abstractmethod
+    def get_diet(self):
+        pass
+
+
+class Carnivore(Dinosaur):
+    def __init__(self, breed, name, height, weight):
+        self._name = name
+        self._breed = breed
+        self._height = height
+        self._weight = weight
+
+    def get_personal_name(self):
+        return self._name
+
+    def get_breed(self):
+        return self._breed
+
+    def get_height(self):
+        return self._height
+
+    def get_weight(self):
+        return self._weight
+
+    def get_diet(self):
+        return 'Плотоядный'
+
+
+class Herbivore(Dinosaur):
+    def __init__(self, breed, name, height, weight):
+        self._name = name
+        self._breed = breed
+        self._height = height
+        self._weight = weight
+
+    def get_personal_name(self):
+        return self._name
+
+    def get_breed(self):
+        return self._breed
+
+    def get_height(self):
+        return self._height
+
+    def get_weight(self):
+        return self._weight
+
+    def get_diet(self):
+        return 'Травоядный'
+
+
+class DinosaurPark:
+    def __init__(self):
+        self.dinosaurs = []
+
+    def add_dinosaur(self, saur):
+        self.dinosaurs.append(
+            [
+                saur.get_personal_name(),
+                saur.get_breed(),
+                saur.get_height(),
+                saur.get_weight(),
+                saur.get_diet()
+            ]
+        )
+
+    def list_dinosaurs(self):
+        return self.dinosaurs
+
+    def list_carnivores(self):
+        return [i for i in self.dinosaurs if i[4] == 'Плотоядный']
+
+    def list_herbivores(self):
+        return [i for i in self.dinosaurs if i[4] == 'Травоядный']
+
+    # ИЛИ ВАРИАНТ УЧЕБНИКА
+
+# class DinosaurPark:
+#     def __init__(self):
+#         self.dinosaurs = []
+#
+#     def add_dinosaur(self, dinosaur):
+#         self.dinosaurs.append(dinosaur)
+#
+#     def list_dinosaurs(self):
+#         return [
+#             (
+#                 dinosaur.get_personal_name(),
+#                 dinosaur.get_breed(),
+#                 dinosaur.get_height(),
+#                 dinosaur.get_weight(),
+#                 dinosaur.get_diet()
+#             ) for dinosaur in self.dinosaurs
+#         ]
+#
+#     def list_carnivores(self):
+#         return [
+#             (
+#                 dinosaur.get_personal_name(),
+#                 dinosaur.get_breed(),
+#                 dinosaur.get_height(),
+#                 dinosaur.get_weight()
+#             ) for dinosaur in self.dinosaurs if isinstance(
+#                 dinosaur,
+#                 Carnivore
+#             )
+#         ]
+#
+#     def list_herbivores(self):
+#         return [
+#             (
+#                 dinosaur.get_personal_name(),
+#                 dinosaur.get_breed(),
+#                 dinosaur.get_height(),
+#                 dinosaur.get_weight()
+#             ) for dinosaur in self.dinosaurs if isinstance(
+#                 dinosaur,
+#                 Herbivore
+#             )
+#         ]
+
+
+t_rex = Carnivore('Тираннозавр', 'Рекс', 4800, 560)
+velociraptor = Carnivore('Велоцираптор', 'Зубастик', 30, 70)
+stegosaurus = Herbivore('Стегозавр', 'Стегга', 7100, 420)
+triceratops = Herbivore('Трицератопс', 'Трипси', 8000, 290)
+
+park = DinosaurPark()
+
+park.add_dinosaur(t_rex)
+park.add_dinosaur(velociraptor)
+park.add_dinosaur(stegosaurus)
+park.add_dinosaur(triceratops)
+
+
+for dinosaur in park.list_dinosaurs():
+    print(f'Имя: {dinosaur[0]}\n'
+    f'Вид: {dinosaur[1]}\n'
+    f'Вес: {dinosaur[2]} кг\n'
+    f'Рост: {dinosaur[3]} см\n'
+    f'Рацион: {dinosaur[4]}\n')
+
+# Имя: Рекс
+# Вид: Тираннозавр
+# Вес: 4800 кг
+# Рост: 560 см
+# Рацион: Плотоядный
+#
+# Имя: Зубастик
+# Вид: Велоцираптор
+# Вес: 30 кг
+# Рост: 70 см
+# Рацион: Плотоядный
+#
+# Имя: Стегга
+# Вид: Стегозавр
+# Вес: 7100 кг
+# Рост: 420 см
+# Рацион: Травоядный
+#
+# Имя: Трипси
+# Вид: Трицератопс
+# Вес: 8000 кг
+# Рост: 290 см
+# Рацион: Травоядный
+
+
+# Задание 5
+# Для учета музыкальных инструментов в оркестре нужно создать
+# абстрактный класс Instrument с методами get_name(), get_type(),
+# get_sound() и play().
+#
+# Два подкласса StringedInstrument (струнные)
+# и PercussionInstrument (ударные) наследуют методы Instrument и
+# реализуют свои собственные версии методов get_name(),
+# get_type(), get_sound() и play().
+
+# Кроме того, необходимо реализовать класс Orchestra: он добавляет новые
+# инструменты и имеет методы list_instruments(), list_stringed_instruments(),
+# list_percussion_instruments(), которые выводят списки
+# a) всех инструментов,
+# b) ударных,
+# c) струнных.
+from abc import ABC, abstractmethod
+
+
+class Instrument(ABC):
+    @abstractmethod
+    def get_name(self):
+        pass
+
+    @abstractmethod
+    def get_type(self):
+        pass
+
+    @abstractmethod
+    def get_sound(self):
+        pass
+
+    @abstractmethod
+    def play(self):
+        pass
+
+
+class StringedInstrument(Instrument):
+    def __init__(self, name, type, sound):
+        self.name = name
+        self.type = type
+        self.sound = sound
+
+    def get_name(self):
+        return self.name
+
+    def get_type(self):
+        return self.type
+
+    def get_sound(self):
+        return self.sound
+
+    def play(self):
+        return f'Звучит {self.type} {self.name}'
+
+
+class PercussionInstrument(Instrument):
+    def __init__(self, name, type, sound):
+        self.name = name
+        self.type = type
+        self.sound = sound
+
+    def get_name(self):
+        return self.name
+
+    def get_type(self):
+        return self.type
+
+    def get_sound(self):
+        return self.sound
+
+    def play(self):
+        return f'Звучит {self.type} {self.name}'
+
+
+class Orchestra:
+    def __init__(self):
+        self.instruments = []
+    def add_instrument(self, instrument):
+        self.instruments.append(instrument)
+
+    def list_instruments(self):
+        return[i.get_name() for i in self.instruments]
+
+    def list_stringed_instruments(self):
+        return [i.get_name() for i in self.instruments if isinstance(
+            i,
+            StringedInstrument
+        )
+                ]
+
+    def list_percussion_instruments(self):
+        return [i.get_name() for i in self.instruments if isinstance(
+            i,
+            PercussionInstrument
+        )
+                ]
+
+
+chello = StringedInstrument("виолончель", "струнный инструмент", "Strum")
+maracas = PercussionInstrument("маракасы", "ударный инструмент", "Maracas")
+violin = StringedInstrument("скрипка", "струнный инструмент", "Virtuso")
+drums = PercussionInstrument("барабан", "ударный инструмент", "Beat")
+
+orchestra = Orchestra()
+orchestra.add_instrument(chello)
+orchestra.add_instrument(maracas)
+orchestra.add_instrument(violin)
+orchestra.add_instrument(drums)
+
+print("В оркестрe есть инструменты:", ', '.join(orchestra.list_instruments()))
+print("Струнные инструменты:", ', '.join(orchestra.list_stringed_instruments()))
+print("Ударные инструменты:", ', '.join(orchestra.list_percussion_instruments()))
+
+print(chello.play())
+print(drums.play())
+
+# В оркестрe есть инструменты: виолончель, маракасы, скрипка, барабан
+# Струнные инструменты: виолончель, скрипка
+# Ударные инструменты: маракасы, барабан
+# Звучит струнный инструмент виолончель
+# Звучит ударный инструмент барабан
+
+
+# Задание 6
+# Напишите класс FilmCatalogue (каталог фильмов), который отвечает
+# за ведение фильмотеки.
+
+# FilmCatalogue должен поддерживать различные типы кинокартин, чтобы
+# пользователи могли искать фильмы по определенному жанру.
+# Для этого необходимо создать новые классы для различных жанров
+# (например, Horror, Action, Romance), которые наследуют класс Movie
+# и переопределяют метод play() для вывода информации о том, к какому
+# жанру относится фильм.
+from abc import ABC, abstractmethod
+from random import choice
+
+
+class Movie(ABC):
+    def __init__(self, title, director):
+        self.title = title
+        self.director = director
+
+    @abstractmethod
+    def play(self):
+        print(f"Собираемся смотреть фильм '{self.title}' реж. {self.director}.")
+
+
+class Horror(Movie):
+    def play(self):
+        return f'Включаем фильм ужасов {repr(self.title)}, {self.director}'
+
+
+class Action(Movie):
+    def play(self):
+        return f'Включаем боевик {repr(self.title)}, {self.director}'
+
+
+class Romance(Movie):
+    def play(self):
+        return f'Включаем мелодраму {repr(self.title)}, {self.director}'
+
+
+class Drama(Movie):
+    def play(self):
+        return f'Включаем драму {repr(self.title)}, {self.director}'
+
+
+class Comedy(Movie):
+    def play(self):
+        return f'Включаем комедию {repr(self.title)}, {self.director}'
+
+
+class FilmCatalogue:
+    def __init__(self):
+        self.movies = []
+
+    def add_movie(self, movie):
+        self.movies.append(movie)
+
+    def play_all_movies(self):
+        for movie in self.movies:
+            print(movie.play())
+
+    def search_movies_by_genre(self, genre):
+        return [i for i in self.movies if isinstance(i, genre)]
+
+    def play_movies_by_genre(self, genre):
+        print(choice([i.play() for i in self.movies if isinstance(i, genre)]))
+
+my_catalogue = FilmCatalogue()
+
+my_catalogue.add_movie(Drama("Крестный отец", "Френсис Ф. Коппола"))
+my_catalogue.add_movie(Comedy("Ночные игры", "Джон Фрэнсис Дейли, Джонатан М. Голдштейн"))
+my_catalogue.add_movie(Horror("Дракула Брэма Стокера", "Френсис Ф. Коппола"))
+my_catalogue.add_movie(Action("Крушение", "Жан-Франсуа Рише"))
+my_catalogue.add_movie(Romance("Честная куртизанка", "Маршалл Херсковиц"))
+
+my_catalogue.play_all_movies()
+
+print(f"\nНайдены фильмы ужасов:")
+for movie in my_catalogue.search_movies_by_genre(Horror):
+    print(movie.title)
+
+print(f"\nЗапускаем фильм из жанра 'Мелодрамы':")
+my_catalogue.play_movies_by_genre(Romance)
+
+# Включаем драму 'Крестный отец' реж. Френсис Ф. Коппола.
+# Включаем комедию 'Ночные игры' реж. Джон Фрэнсис Дейли, Джонатан М. Голдштейн.
+# Включаем фильм ужасов 'Дракула Брэма Стокера' реж. Френсис Ф. Коппола.
+# Включаем боевик 'Крушение' реж. Жан-Франсуа Рише.
+# Включаем мелодраму 'Честная куртизанка' реж. Маршалл Херсковиц.
+#
+# Найдены фильмы ужасов:
+# Дракула Брэма Стокера
+#
+# Запускаем фильм из жанра 'Мелодрамы':
+# Включаем мелодраму 'Честная куртизанка' реж. Маршалл Херсковиц.
+
+
+# Задание 7
+# Для CRM винодельни нужно написать модуль, отвечающий за учет
+# красных, белых и розовых вин, каждое из которых имеет свое название,
+# сорт винограда, год и температуру подачи.
+#
+# Создайте базовый класс Wine с атрибутами name, grape и year.
+# Затем создайте три подкласса RedWine, WhiteWine и RoseWine,
+# которые наследуют методы и атрибуты от Wine и реализуют свои
+# собственные версии метода serve().
+# Кроме того, создайте класс Winery, который ведет список вин и имеет метод
+# serve_wines(), вызывающий метод serve() для каждого вина.
+from abc import ABC, abstractmethod
+
+class Wine(ABC):
+    def __init__(self, name, grape, year):
+        self.name = name
+        self.grape = grape
+        self.year = year
+
+    def serve(self):
+        pass
+
+
+class RedWine(Wine):
+    def serve(self):
+        print(
+            f"Красное вино '{self.name}', сделанное из винограда сорта {self.grape} "
+            f"в {self.year} году, рекомендуем подавать комнатной температуры.")
+
+
+class WhiteWine(Wine):
+    def serve(self):
+        print(
+            f"Белое вино '{self.name}', сделанное из винограда сорта {self.grape} "
+            f"в {self.year} году, рекомендуем подавать комнатной температуры.")
+
+
+class RoseWine(Wine):
+    def serve(self):
+        print(
+            f"Розовое вино '{self.name}', сделанное из винограда сорта {self.grape} "
+            f"в {self.year} году, рекомендуем подавать комнатной температуры.")
+
+
+class Winery:
+    def __init__(self):
+        self.wines = []
+
+    def add_wine(self, wine):
+        self.wines.append(wine)
+
+    def serve_wines(self):
+        for wine in self.wines:
+            wine.serve()
+
+
+winery = Winery()
+winery.add_wine(RedWine("Cabernet Sauvignon", "Каберне Совиньон", 2015))
+winery.add_wine(WhiteWine("Chardonnay", "Шардоне", 2018))
+winery.add_wine(RoseWine("Grenache", "Гренаш", 2020))
+winery.serve_wines()
+
+# Красное вино 'Cabernet Sauvignon', сделанное из винограда сорта Каберне Совиньон
+# в 2015 году, рекомендуем подавать комнатной температуры.
+# Белое вино 'Chardonnay', сделанное из винограда сорта Шардоне в 2018 году,
+# рекомендуем подавать хорошо охлажденным.
+# Розовое вино 'Grenache', сделанное из винограда сорта Гренаш в 2020 году,
+# рекомендуем подавать слегка охлажденным.
+
+
 
 ---------------------------------------------
 
 ---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+
+---------------------------------------------
+

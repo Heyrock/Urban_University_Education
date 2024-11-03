@@ -1,46 +1,28 @@
-RANKS = ["рядовой", "ефрейтор", "младший сержант", "сержант", "старший сержант",
-         "прапорщик", "старший прапорщик"]
-
-def print_info(cls):
-    class NewClass(cls):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            print(f"Создан новый игровой персонаж типа {cls.__name__} "
-                  f"с атрибутами: {self.__dict__}")
-
-        def get_rank(self):
-            print(f"Персонаж {self.name} имеет звание {self._Soldier__rank}")
-
-        def promote(self):
-            super().promote()
-            print(f"{self.name} повышен в звании, он теперь {self._Soldier__rank}")
-
-        def demote(self):
-            super().demote()
-            print(f"{self.name} понижен в звании, он теперь {self._Soldier__rank}")
-
-    return NewClass
-
-@print_info
-class Soldier:
-    def __init__(self, name, rank, service_number):
+class Wine:
+    def __init__(self, name, grape, year):
         self.name = name
-        self.__rank = rank
-        self.__service_number = service_number
+        self.grape = grape
+        self.year = year
 
-    def verify_service_number(self, service_number):
-        return self.__service_number == service_number
+class RedWine(Wine):
+    def serve(self):
+        print(f"Красное вино '{self.name}', сделанное из винограда сорта {self.grape} в {self.year} году, рекомендуем подавать комнатной температуры.")
 
-    def promote(self):
-        if self.__rank in RANKS[:-1]:
-            self.__rank = RANKS[RANKS.index(self.__rank) + 1]
+class WhiteWine(Wine):
+    def serve(self):
+        print(f"Белое вино '{self.name}', сделанное из винограда сорта {self.grape} в {self.year} году, рекомендуем подавать хорошо охлажденным.")
 
-    def demote(self):
-        if self.__rank in RANKS[1:]:
-            self.__rank = RANKS[RANKS.index(self.__rank) - 1]
+class RoseWine(Wine):
+    def serve(self):
+        print(f"Розовое вино '{self.name}', сделанное из винограда сорта {self.grape} в {self.year} году, рекомендуем подавать слегка охлажденным.")
 
+class Winery:
+    def __init__(self):
+        self.wines = []
 
-soldier1 = Soldier("Иван Сусанин", "рядовой", "12345")
-soldier1.get_rank()
-soldier1.promote()
-soldier1.demote()
+    def add_wine(self, wine):
+        self.wines.append(wine)
+
+    def serve_wines(self):
+        for wine in self.wines:
+            wine.serve()
