@@ -20,6 +20,7 @@
 #
 # Создайте несколько объектов класса House и проверьте работу методов
 # __del__ и __new__, а также значение атрибута houses_history.
+
 def check_instance(f):
     def wrapper(*args):
         if isinstance(args[1], House):
