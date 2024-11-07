@@ -16,13 +16,7 @@ class User:
 nums = [1, 2, 3]
 personal = {'name': 'Eugen', 'age': 47}
 
-# user1 = User(*nums, **personal)
-# print(user1.args)
-# print(user1.name)
-# print(user1.age)
-
-def my_func(a, b):
-    print(a, b)
-
-
-my_func(3, 2, a=1)
+user1 = User(*nums, **personal)
+print(user1.args)
+print(user1.name)
+print(user1.age)

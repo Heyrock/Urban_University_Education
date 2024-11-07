@@ -1,4 +1,4 @@
-from practice_1_1.decorator import check_time
+from Urban_practice.practice_1_1.decorator import check_time
 
 nums = [5, 6, 2, 1, 3, 4]
 
