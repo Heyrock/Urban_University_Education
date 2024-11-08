@@ -1,28 +1,16 @@
-class User:
-    __instance = None
+class Cat:
     def __new__(cls, *args, **kwargs):
-        print('Я в нью')
-        if cls.__instance == None:
-            cls.__instance = super().__new__(cls)
-        return cls.__instance
+        print('1. Создание экземпляра класса Cat')
+        instance = object.__new__(cls)
+        return instance
 
-    def __init__(self, *args, **kwargs):
-        print('Я в ините')
-        self.args = args
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+    def __init__(self, name):
+        print('2. Инициализация созданного экземпляра класса Cat')
+        self.name = name
 
 
-nums = [1, 2, 3]
-personal = {'name': 'Eugen', 'age': 47}
+cat = Cat.__new__(Cat)
+Cat.__init__(cat, 'Кузя')
 
-# user1 = User(*nums, **personal)
-# print(user1.args)
-# print(user1.name)
-# print(user1.age)
-
-def my_func(a, b):
-    print(a, b)
-
-
-my_func(3, 2, a=1)
+print(type(cat))
+print(cat.name)

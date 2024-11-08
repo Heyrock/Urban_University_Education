@@ -1,4 +1,4 @@
-from Urban_practice.practice_1_1 import bubble_sort, selection_sort, insertion_sort
+from Practical_examples.decorator import bubble_sort, selection_sort, insertion_sort
 
 # [print(*list(map(int, input('Введите числа через пробел: ').split())))
 #  for _ in range(int(input('Введите количество списков чисел: ')))]
