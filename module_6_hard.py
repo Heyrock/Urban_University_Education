@@ -150,17 +150,18 @@ import math
 
 
 class Figure:
-    sides_count = 3
+    sides_count = 0
 
     def __init__(self, rgb, *sides):
+        # это так специально, чтобы соблюсти некорректное условие задания :)
         if len(sides) == 1 and isinstance(self, (Cube, Circle)):
             self.__sides = [sides[0]] * self.sides_count
         elif len(sides) != self.sides_count:
-            self.__sides = [1 for i in range(self.sides_count)]
+            self.__sides = [1] * self.sides_count
         else:
-            self.__sides = [i for i in sides]
+            self.__sides = list(sides)
 
-        self.__color = [i for i in rgb]
+        self.__color = list(rgb) if self.__is_valid_color(*rgb) else [0, 0, 0]
         self.filled = False
 
     def get_color(self):
@@ -184,7 +185,7 @@ class Figure:
 
     def set_sides(self, *new_sides):
         if self.__is_valid_sides(new_sides):
-            self.__sides = [i for i in new_sides]
+            self.__sides = list(new_sides)
 
     def get_sides(self):
         return self.__sides
@@ -204,16 +205,22 @@ class Circle(Figure):
     def get_square(self):
         return 2 * math.pi * self.__radius ** 2
 
+    @property
+    def side(self):
+        return self.__side
+
+    @side.setter
+    def side(self, side):
+        self.__side = side
+
 
 class Triangle(Figure):
     sides_count = 3
 
     def __init__(self, rgb, *sides):
         super().__init__(rgb, *sides)
-        if len(sides) == self.sides_count:
-            self.a = sides[0]
-            self.b = sides[1]
-            self.c = sides[2]
+        self.side = sides
+        self.__a, self.__b, self.__c = self.side
 
     @staticmethod
     def get_half_perimeter(a, b, c):
@@ -221,12 +228,23 @@ class Triangle(Figure):
 
     def get_square(self):
         hp = self.get_half_perimeter(
-            self.a,
-            self.b,
-            self.c
+            self.__a,
+            self.__b,
+            self.__c
         )
-        s = hp * (hp - self.a) * (hp - self.b) * (hp - self.c)
+        s = hp * (hp - self.__a) * (hp - self.__b) * (hp - self.__c)
         return s
+
+    @property
+    def side(self):
+        return self.__side
+
+    @side.setter
+    def side(self, sides):
+        if len(sides) == self.sides_count:
+            self.__side = sides
+        else:
+            self.__side = [1, 1, 1]
 
 
 class Cube(Figure):
@@ -238,6 +256,14 @@ class Cube(Figure):
 
     def get_volume(self):
         return self.side ** 3
+
+    @property
+    def side(self):
+        return self.__side
+
+    @side.setter
+    def side(self, side):
+        self.__side = side
 
 
 # Код для проверки:
