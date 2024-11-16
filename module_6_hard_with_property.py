@@ -145,7 +145,6 @@
 # только внутри текущего класса.
 # 5. Вам не запрещается вводить дополнительные атрибуты и методы, творите,
 # но не переборщите!
-
 import math
 
 
@@ -153,16 +152,9 @@ class Figure:
     sides_count = 0
 
     def __init__(self, rgb, *sides):
-        # это так специально, чтобы соблюсти некорректное условие задания :)
-        if len(sides) == 1 and isinstance(self, (Cube, Circle)):
-            self.__sides = [sides[0]] * self.sides_count
-        elif len(sides) != self.sides_count:
-            self.__sides = [1] * self.sides_count
-        else:
-            self.__sides = list(sides)
-
         self.__color = list(rgb) if self.__is_valid_color(*rgb) else [0, 0, 0]
         self.filled = False
+        self.sides = sides
 
     def get_color(self):
         return self.__color
@@ -176,19 +168,24 @@ class Figure:
             self.__color = [r, g, b]
 
     @staticmethod
-    def __check_positive(*new_sides):
-        return all(map(lambda x: x > 0, *new_sides))
+    def __check_positive(new_sides):
+        # return all(map(lambda x: x > 0, *new_sides))
+        all(isinstance(side, int) and side > 0 for side in new_sides)
 
     def __is_valid_sides(self, *new_sides):
-        return len(self.__sides) == len(new_sides) \
-            and self.__check_positive(*new_sides)
+        return self.sides_count == len(new_sides) \
+            and self.__check_positive(new_sides)
 
-    def set_sides(self, *new_sides):
-        if self.__is_valid_sides(new_sides):
-            self.__sides = list(new_sides)
-
-    def get_sides(self):
+    @property
+    def sides(self):
         return self.__sides
+
+    @sides.setter
+    def sides(self, *new_sides):
+        if self.__is_valid_sides(*new_sides):
+            self.__sides = list(new_sides)
+        else:
+           self.__sides = [1] * self.sides_count
 
     def __len__(self):
         return sum(self.__sides)
@@ -204,14 +201,6 @@ class Circle(Figure):
 
     def get_square(self):
         return 2 * math.pi * self.__radius ** 2
-
-    @property
-    def side(self):
-        return self.__side
-
-    @side.setter
-    def side(self, side):
-        self.__side = side
 
 
 class Triangle(Figure):
@@ -235,17 +224,6 @@ class Triangle(Figure):
         s = hp * (hp - self.__a) * (hp - self.__b) * (hp - self.__c)
         return s
 
-    @property
-    def side(self):
-        return self.__side
-
-    @side.setter
-    def side(self, sides):
-        if len(sides) == self.sides_count:
-            self.__side = sides
-        else:
-            self.__side = [1, 1, 1]
-
 
 class Cube(Figure):
     sides_count = 12
@@ -256,14 +234,6 @@ class Cube(Figure):
 
     def get_volume(self):
         return self.side ** 3
-
-    @property
-    def side(self):
-        return self.__side
-
-    @side.setter
-    def side(self, side):
-        self.__side = side
 
 
 # Код для проверки:
@@ -276,12 +246,16 @@ circle1.set_color(55, 66, 77) # Изменится
 print(circle1.get_color()) # [55, 66, 77]
 cube1.set_color(300, 70, 15) # Не изменится
 print(cube1.get_color()) # [222, 35, 130]
-
+#
 # Проверка на изменение сторон:
-cube1.set_sides(5, 3, 12, 4, 5) # Не изменится
-print(cube1.get_sides()) # [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
-circle1.set_sides(15) # Изменится
-print(circle1.get_sides()) # [15]
+# cube1.set_sides(5, 3, 12, 4, 5) # Не изменится
+cube1.sides = (5, 3, 12, 4, 5) # Не изменится
+# print(cube1.get_sides()) # [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+print(cube1.sides) # [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+# circle1.set_sides(15) # Изменится
+circle1.sides = 15 # Изменится
+# print(circle1.get_sides()) # [15]
+print(circle1.sides) # [15]
 
 # Проверка периметра (круга), это и есть длина:
 print(len(circle1)) # 15
