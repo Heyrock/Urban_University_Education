@@ -35,6 +35,7 @@
 # Age: 25
 # New Age: 26
 # Is Student: True
+import os
 
 name = 'Евгений'
 print(f'Имя: {name}')
@@ -44,3 +45,4 @@ age += 1
 print(f'Новый возраст: {age}')
 is_student = True
 print(f'Являюсь студентом = {is_student}')
+
