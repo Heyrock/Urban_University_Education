@@ -47,7 +47,7 @@ import os
 import time
 from os.path import basename, dirname, abspath
 
-for root, dirs, files in os.walk('.'):
+for root, dirs, files in os.walk('..'):
     for file in files:
         # Абсолютный путь файла -> полный адрес директории -> замыкающий фрагмент
         # parent_dir = os.path.basename(os.path.dirname(os.path.abspath(file)))
