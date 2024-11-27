@@ -40,3 +40,39 @@ print(add_everything_up(123.456, 7))
 # 123.456строка
 # яблоко4215
 # 130.456
+
+# ВАРИАНТ ЧЕРЕЗ КЛАСС И DECIMAL
+
+# from decimal import Decimal
+#
+#
+# class add_everything_up:
+#     def __init__(self, a, b):
+#         self.a = self.make_decimal(a)
+#         self.b = self.make_decimal(b)
+#
+#     @staticmethod
+#     def make_decimal(x):
+#         if isinstance(x, (int, float)):
+#             return Decimal(str(x))
+#         else:
+#             return x
+#
+#     def add(self):
+#         try:
+#             return self.a + self.b
+#         except TypeError:
+#             return str(self.a) + str(self.b)
+#
+#     def __str__(self):
+#         return str(self.add())
+
+
+# Пример кода:
+# print(add_everything_up(123.456, 'строка'))
+# print(add_everything_up('яблоко', 4215))
+# print(add_everything_up(123.456, 7))
+
+# 123.456строка
+# яблоко4215
+# 130.456
