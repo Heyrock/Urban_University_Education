@@ -8,6 +8,8 @@ def greet_person(person_name):
 
 greet_person('Дорогой ученик')
 greet_person('ВоланДеМорт')
+# Exception: Мы не любим тебя, ВоланДеМорт
+# Привет, Дорогой ученик
 
 
 #  Пример 2 - raise ошибки, но перед этим мы ее обрабатываем
@@ -19,7 +21,9 @@ try:
 #     print('На ноль делить нельзя')
 except NameError as exc:
     print(f'исключение типа {type(exc)} пролетело мимо! Его параметры {exc.args}')
-    raise #
+    raise # чтобы сработало исключение
+# NameError: Hello there
+# исключение типа <class 'NameError'> пролетело мимо! Его параметры ('Hello there',)
 
 
 #  Пример 3 - создание класса-исключения

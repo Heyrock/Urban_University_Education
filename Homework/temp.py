@@ -1,24 +1,10 @@
-#  Пример 4 - создание класса-исключения и перехват ошибки
-class ProZero(Exception):
-    def __init__(self, message, extra_info):
-        self.message = message
-        self.extra_info = extra_info
+# пример 6 - функция filter
 
-def f(a, b):
-    if b == 0:
-        raise ProZero(
-            message='Деление на ноль невозможно',
-            extra_info={'a': a, 'b': b}
-        )
-    return a / b
+def is_odd(x):
+    return x % 2
 
-try:
-    print(f(10, 0))
-except ProZero as exc:
-    print('Не очень хороший день, мы словили ошибку')
-    print(f'Сообщение об ошибке: "{exc.message}"')
-    print(f'Дополнительная информация: {exc.extra_info}')
+my_numbers = [3, 1, 4, 1, 5, 9, 2, 6]
 
-# Не очень хороший день, мы словили ошибку
-# Сообщение об ошибке: "Деление на ноль невозможно"
-# Дополнительная информация: {'a': 10, 'b': 0}
+result = filter(is_odd, my_numbers)
+print(list(result))
+# [3, 1, 1, 5, 9]
