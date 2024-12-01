@@ -1,10 +1,12 @@
-# пример 6 - функция filter
+# пример 6 - создание на лету множеств и словарей
 
-def is_odd(x):
-    return x % 2
+nums_1 = [3, 1, 4, 1, 5, 9, 2, 6]
+nums_2 = [10, 20, 30]
+print({x for x in nums_1})
+# {1, 2, 3, 4, 5, 6, 9}
 
-my_numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+print({x: x * 2 for x in nums_1})
+# {3: 6, 1: 2, 4: 8, 5: 10, 9: 18, 2: 4, 6: 12}
 
-result = filter(is_odd, my_numbers)
-print(list(result))
-# [3, 1, 1, 5, 9]
+nums_1.extend(nums_2)
+print(nums_1)
