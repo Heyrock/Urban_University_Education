@@ -1,18 +1,20 @@
-# пример 4 - Демонстрация встроенных функций с ленивыми вычислениями
-list_1 = [1, 2, 3, 4, 5]
-list_2 = [6, 7, 8, 9, 0]
+class Multiplier:
+    def __init__(self, n):
+        self.n = n
 
-ran = range(10, 30)
-zp = zip(list_1, list_2)
-mp = map(str, list_1)
+    def __call__(self, x):
+        # если у класса есть такой метод, то его можно вызывать как функцию
+        return self.n * x
 
-print(ran, zp, mp)
 
-print(list(ran))
-print(list(zp))
-print(list(mp))
+nums = [1, 2, 3]
+by_100500 = Multiplier(100500)
+result = by_100500(42)
+print(result)
+# 4221000
 
-# range(10, 30) <zip object at 0x000001EACF50EC80> <map object at 0x000001EACF38BA30>
-# [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
-# [(1, 6), (2, 7), (3, 8), (4, 9), (5, 0)]
-# ['1', '2', '3', '4', '5']
+# print(Multiplier(100500)(42))
+# 4221000
+
+print(list(map(by_100500, nums)))
+# [100500, 201000, 301500]
