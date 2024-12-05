@@ -1,14 +1,21 @@
-def all_variants(text):
-    for i in range(len(text) + 1):
-        for j in range(len(text) - i + 1):
-            if text[j:j + i]:
-                yield text[j:j + i]
-
-
-a = all_variants("abc")
-for i in a:
-    print(i)
-
+# Задача:
+#
+# Напишите функцию-генератор all_variants(text), которая принимает строку
+# text и возвращает объект-генератор, при каждой итерации которого будет
+# возвращаться подпоследовательности переданной строки.
+#
+# Пункты задачи:
+#
+# 1. Напишите функцию-генератор all_variants(text).
+# 2. Опишите логику работы внутри функции all_variants.
+# 3. Вызовите функцию all_variants и выполните итерации.
+#
+# Пример результата выполнения программы:
+# Пример работы функции:
+# a = all_variants("abc")
+# for i in a:
+# print(i)
+#
 # Вывод на консоль:
 # a
 # b
@@ -16,3 +23,17 @@ for i in a:
 # ab
 # bc
 # abc
+#
+# Примечания:
+# 1. Для функции генератора используйте оператор yield.
+
+def all_variants(text):
+    for i in range(3 + 1):
+        for j in range(3 - i + 1):
+            if text[j:j + i]:
+                yield text[j:j + i]
+
+
+a = all_variants("abc")
+for i in a:
+    print(i)
