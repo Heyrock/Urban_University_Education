@@ -14,8 +14,8 @@ search_text = input('Введите текст поиска: ').lower()
 # directories = r'../Urban_1'
 
 # вариант с обратным слэшем
-# directories = 'C:/Users/Ром/Documents/Urban_1'
-directories = '../Urban_1'
+directories = 'C:/Users/Ром/Documents/Urban_1'
+# directories = '../Urban_1'
 
 
 # def find_file(cur_path, ending='.txt'):
@@ -37,12 +37,15 @@ def find_file(cur_path, ending=('.txt', '.py')):
 def search_for_text(path_to_file, text):
     # список всех файлов, в которых есть нужный текст
     results = []
-    for path in path_to_file:
-        with open(path, "r", encoding="utf8") as file:
-            for line in file:
-                if text in line.lower():
-                    results.append(path)
-                    break
+    try:
+        for path in path_to_file:
+            with open(path, "r", encoding="utf-8") as file:
+                for line in file:
+                    if text in line.lower():
+                        results.append(path)
+                        break
+    except UnicodeDecodeError as e:
+        print(f"Ошибка декодирования файла {path}: {e}")
     return results
 
 
