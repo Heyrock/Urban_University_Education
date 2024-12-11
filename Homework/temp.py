@@ -1,2 +1,4 @@
-with open('../.txt', 'r', encoding='utf-8') as file:
-    print(file.read())
+import time
+
+print(time.ctime(time.time()))
+# Wed Dec 11 12:27:55 2024
