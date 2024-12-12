@@ -22,8 +22,8 @@ class MyThread(threading.Thread):
         print(f'Поток {self.name} завершен')
 
 
-thread_1 = MyThread('thread_1', 5, 1)
-thread_2 = MyThread('thread_2', 3, 0.5)
+thread_1 = MyThread('thread_1', 5, 0.1)
+thread_2 = MyThread('thread_2', 3, 0.05)
 thread_1.start()
 thread_2.start()
 # Поток thread_1 запущен
