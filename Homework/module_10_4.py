@@ -171,7 +171,7 @@ class Cafe:
 
                 # Если за столом есть гость и гость закончил приём пищи
                 if table.guest and not table.guest.is_alive():
-                    print(f'{table.guest.name} покушал(-а) и ушёл(ушла)"')
+                    print(f'{table.guest.name} покушал(-а) и ушёл(ушла)')
                     print(f'Стол номер {table.number} свободен')
                     table.guest = None
 
