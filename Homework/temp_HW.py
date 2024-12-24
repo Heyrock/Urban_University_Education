@@ -1,33 +1,60 @@
-import datetime
-from multiprocessing import Pool
+# модуль requests
+
+""" Честно украдено из старых конспектов.
+    Я никогда не работал с сайтами, и без чужой подсказки не представляю,
+    что и где в них можно брать
+    Но сама структура действий понятна"""
+
+import requests
+from pprint import pprint
+
+API_KEY = 'dict.1.1.20231003T131408Z.8b308095a51a27ed.5487188eb70a2c7bbc75c84a878e12f9e67826e9'
+BASE_URL = 'https://dictionary.yandex.net/api/v1/dicservice.json'
 
 
-def read_info(name):
-    all_data = []
-    with open(name, 'r', encoding='utf8') as f:
-        empty = False
-        while not empty:
-            line = f.readline()
-            all_data.append(line)
-            if not line:
-                empty = True
+def get_langs():
+    response = requests.get(f'{BASE_URL}/getLangs', params={
+        'key': API_KEY
+    })
+    return response
 
 
-# Пример результата выполнения программы:
-filenames = [f'module_11_1_file_{number}.txt' for number in range(1, 5)]
+def lookup(lang, text, ui='ru'):
+    response = requests.post(f'{BASE_URL}/lookup', params={
+        'key': API_KEY,
+        'lang': lang,
+        'text': text,
+        'ui': ui
+    })
+    return response
 
-# Линейный вызов
-start_lin = datetime.datetime.now()
-for file in filenames:
-    read_info(file)
-print(datetime.datetime.now() - start_lin, '(линейный)')
-# 0:00:09.871931 (линейный)
+
+langs_response = get_langs()
+if langs_response.status_code != 200:
+    print('Не удалось получить список направлений перевода')
+    exit(1)
+
+langs = langs_response.json()
+print('Выберите одно из доступных направлений перевода')
+print(langs)
+while (lang := input('Введите направление: ')) not in langs:
+    print('Такого направления нет. Попробуйте ещё раз')
+
+text = input('Введите слово или фразу для перевода: ')
+lookup_response = lookup(lang, text)
+if lookup_response.status_code != 200:
+    print('Не удалось выполнить перевод:', lookup_response.text)
+    exit(1)
+
+pprint(lookup_response.json()['def'][0]['tr'][0]['text'])
 
 
-# Многопроцессный
-if __name__ == '__main__':
-    start_mul = datetime.datetime.now()
-    with Pool(4) as p:
-        p.map(read_info, filenames)
-    print(datetime.datetime.now() - start_mul, '(многопроцессный)')
-# 0:00:03.668743 (многопроцессный)
+# модуль numpy
+import numpy as np
+
+a = np.arange(1, 13).reshape(4, 3)
+b = np.rot90(a)
+c = np.rot90(a, -1)
+print(b * c)
+
+# модуль pandas

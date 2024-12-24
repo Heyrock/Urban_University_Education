@@ -151,10 +151,11 @@ class Cafe:
         self.tables = args
 
     def guest_arrival(self, *guests):
-        for table, guest in zip(self.tables, guests):
-            table.guest = guest
-            table.guest.start()
-            print(f'{guest.name} сел(-а) за стол номер {table.number}')
+        with lock:
+            for table, guest in zip(self.tables, guests):
+                table.guest = guest
+                table.guest.start()
+                print(f'{guest.name} сел(-а) за стол номер {table.number}')
 
         for i in range(len(self.tables), len(guests)):
             self.queue.put(guests[i])
@@ -166,26 +167,28 @@ class Cafe:
         while not self.queue.empty() or \
                 any(table.guest for table in self.tables if table.guest is not None):
         # while not self.queue.empty() or any(table.guest for table in self.tables):
+            with lock:
+                for table in self.tables:
 
-            for table in self.tables:
+                    # Если за столом есть гость и гость закончил приём пищи
+                    if table.guest and not table.guest.is_alive():
+                        print(f'{table.guest.name} покушал(-а) и ушёл(ушла)')
+                        print(f'Стол номер {table.number} свободен')
+                        table.guest = None
 
-                # Если за столом есть гость и гость закончил приём пищи
-                if table.guest and not table.guest.is_alive():
-                    print(f'{table.guest.name} покушал(-а) и ушёл(ушла)')
-                    print(f'Стол номер {table.number} свободен')
-                    table.guest = None
-
-                # Если очередь ещё не пуста и один из столов освободился
-                elif not self.queue.empty() and table.guest is None:
-                    next_guest = self.queue.get()
-                    table.guest = next_guest
-                    table.guest.start()
-                    print(f'{next_guest.name} вышел(-ла) из очереди и сел(-а) '
-                          f'за стол номер {table.number}')
+                    # Если очередь ещё не пуста и один из столов освободился
+                    elif not self.queue.empty() and table.guest is None:
+                        next_guest = self.queue.get()
+                        table.guest = next_guest
+                        table.guest.start()
+                        print(f'{next_guest.name} вышел(-ла) из очереди и сел(-а) '
+                              f'за стол номер {table.number}')
 
 
 # Пример результата выполнения программы:
 # Выполняемый код:
+
+lock = threading.Lock()
 
 # Создание столов
 tables = [Table(number) for number in range(1, 6)]
