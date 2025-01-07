@@ -77,6 +77,7 @@ import unittest
 
 
 class TournamentTest(unittest.TestCase):
+    is_frozen = True
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -92,18 +93,30 @@ class TournamentTest(unittest.TestCase):
         for value in cls.all_results.values():
             print({item: val.name for item, val in value.items()})
 
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_1(self):
         participants = [self.usain, self.nick]
         tournament = file.Tournament(90, *participants)
         self.all_results['Тест 1'] = tournament.start()
         self.assertTrue((self.all_results['Тест 1'][2]), 'Ник')
 
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_2(self):
         participants = [self.andrey, self.nick]
         tournament = file.Tournament(90, *participants)
         self.all_results['Тест 2'] = tournament.start()
         self.assertTrue((self.all_results['Тест 2'][2]), 'Ник')
 
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_3(self):
         participants = [self.usain, self.andrey, self.nick]
         tournament = file.Tournament(90, *participants)

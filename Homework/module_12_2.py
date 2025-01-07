@@ -45,18 +45,32 @@ import module_12_2_to_be_checked as file
 
 
 class RunnerTest(unittest.TestCase):
+    is_frozen = False
+
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_walk(self):
         runner = file.Runner('Vasya')
         for i in range(10):
             runner.walk()
         self.assertEqual(runner.distance, 50)
 
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_run(self):
         runner = file.Runner('Vasya')
         for i in range(10):
             runner.run()
         self.assertEqual(runner.distance, 100)
 
+    @unittest.skipIf(
+        condition=is_frozen,
+        reason='Тесты в этом кейсе заморожены'
+    )
     def test_challenge(self):
         runner_1 = file.Runner('Vasya')
         runner_2 = file.Runner('Petya')
