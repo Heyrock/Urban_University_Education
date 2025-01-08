@@ -1,0 +1,7 @@
+2025-01-08 16:29:40,041 | INFO | Successful division: 10 / 2
+2025-01-08 16:29:40,041 | ERROR | No dividing by zero!
+Traceback (most recent call last):
+  File "C:\Users\Ром\Documents\Urban_1\Urban_lectures\_12_6_logging.py", line 6, in div
+    a / b
+    ~~^~~
+ZeroDivisionError: division by zero

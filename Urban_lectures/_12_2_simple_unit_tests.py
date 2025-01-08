@@ -1,4 +1,4 @@
-import _12_1_unit_testing_intro as calc
+import _12_1_calculator as calc
 import unittest
 
 class CalcTest(unittest.TestCase):
