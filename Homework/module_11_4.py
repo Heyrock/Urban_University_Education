@@ -30,16 +30,10 @@
 
 import inspect
 from pprint import pprint
-import re
 
 
 def get_type(obj):
-    string = str(type(obj))
-    pattern_1 = re.compile("<class '")
-    pattern_2 = re.compile("'>")
-    for i in (pattern_1, pattern_2):
-        string = i.sub('', string)
-    return string
+    return type(obj).__name__
 
 
 def get_attr(obj):
@@ -54,7 +48,8 @@ def get_methods(obj):
 
 
 def get_module(obj):
-    return inspect.getmodule(obj)
+    return inspect.getmodule(obj) if inspect.getmodule(obj) \
+        else '__main__'
 
 
 def introspection_info(obj):
@@ -78,6 +73,26 @@ class TestClass:
 instance = TestClass()
 instance_info = introspection_info(instance)
 pprint(instance_info)
+print()
 
 number_info = introspection_info(42)
 pprint(number_info)
+
+# {'attributes': ['attr1', 'attr2'],
+#  'methods': ['do_sth'],
+#  'module': <module '__main__' from 'C:\\Users\\Ром\\Documents\\Urban_1\\Homework\\module_11_4.py'>,
+#  'type': 'TestClass'}
+#
+# {'attributes': ['None'],
+#  'methods': ['as_integer_ratio',
+#              'bit_count',
+#              'bit_length',
+#              'conjugate',
+#              'denominator',
+#              'from_bytes',
+#              'imag',
+#              'numerator',
+#              'real',
+#              'to_bytes'],
+#  'module': '__main__',
+#  'type': 'int'}

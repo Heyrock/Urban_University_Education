@@ -30,7 +30,7 @@ def find_file(cur_path, ending=('.txt', '.py')):
             result = find_file(path, ending)
             if result:
                 all_paths.extend(result)
-
+    all_paths = [i for i in all_paths if not 'venv' in i]
     return all_paths
 
 

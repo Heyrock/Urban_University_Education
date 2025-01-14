@@ -1,102 +1,43 @@
-# Закрепить знания об интроспекции в Python.
-# Создать персональную функции для подробной интроспекции объекта.
-#
-# Задание:
-# Необходимо создать функцию, которая принимает объект (любого типа)
-# в качестве аргумента и проводит интроспекцию этого объекта,
-# чтобы определить его тип, атрибуты, методы, модуль, и другие свойства.
-#
-# 1. Создайте функцию introspection_info(obj), которая принимает объект obj.
-# 2. Используйте встроенные функции и методы интроспекции Python для получения
-# информации о переданном объекте.
-# 3. Верните словарь или строки с данными об объекте, включающий следующую
-# информацию:
-# - Тип объекта.
-# - Атрибуты объекта.
-# - Методы объекта.
-# - Модуль, к которому объект принадлежит.
-# - Другие интересные свойства объекта, учитывая его тип (по желанию).
-#
-# Пример работы:
-# number_info = introspection_info(42)
-# print(number_info)
-#
-# Вывод на консоль:
-# {'type': 'int', 'attributes': [...], 'methods': ['__abs__', '__add__', ...],
-# 'module': '__main__'}
-#
-# Рекомендуется создавать свой класс и объект для лучшего понимания
-# Файл с кодом прикрепите к домашнему заданию.
-
 import inspect
-from pprint import pprint
-import re
-
-
-def get_type(obj):
-    string = str(type(obj))
-    pattern_1 = re.compile("<class '")
-    pattern_2 = re.compile("'>")
-    for i in (pattern_1, pattern_2):
-        string = i.sub('', string)
-    return string
-
-
-def get_attr(obj):
-    try:
-        return [attr for attr in dict(obj.__dict__)]
-    except AttributeError:
-        return ['None']
-
-
-def get_methods(obj):
-    return [i for i in dir(obj) if i not in get_attr(obj) and '__' not in i]
-
-
-def get_module(obj):
-    return inspect.getmodule(obj)
 
 
 def introspection_info(obj):
-    results = {}
-    results['type'] = get_type(obj)
-    results['attributes'] = get_attr(obj)
-    results['methods'] = get_methods(obj)
-    results['module'] = get_module(obj)
-    return results
+    info = {
+        'type': type(obj).__name__,
+        'attributes': [attr for attr in dir(obj)
+                       if not callable(getattr(obj, attr))
+                       and not attr.startswith('__')],
+        'methods': [method for method in dir(obj)
+                    if callable(getattr(obj, method))
+                    and not method.startswith('__')],
+        # 'module': obj.__class__.__module__
+        'module': type(obj).__module__
+    }
+    return info
+
+# Взял класс из раннего задания
+class House:
+    def __init__(self, name, floor):
+        self.name = name
+        self.number_of_floors = floor
+
+    def go_to(self, new_floor):
+        if new_floor > self.number_of_floors or new_floor < 1:
+            print("Такого этажа не существует")
+        else:
+            for floor in range(1, new_floor + 1):
+                print(floor)
 
 
-class TestClass:
-    def __init__(self):
-        self.attr1 = 'Hello'
-        self.attr2 = 'World'
 
-    def do_sth(self):
-        print('do sth')
+# Создание объекта
+my_object = House('Hilton', 10)
 
-
-instance = TestClass()
-instance_info = introspection_info(instance)
-pprint(instance_info)
+# Интроспекция
+object_info = introspection_info(my_object)
+print(object_info)
+# {'type': 'House', 'attributes': ['name', 'number_of_floors'],
+# 'methods': ['go_to'], 'module': '__main__'}
 
 number_info = introspection_info(42)
-pprint(number_info)
-
-# {'attributes': ['attr1', 'attr2'],
-#  'methods': ['do_sth'],
-#  'module': <module '__main__' from 'C:\\Users\\Ром\\Documents\\Urban_1\\Homework\\temp_HW.py'>,
-#  'type': '__main__.TestClass'}
-#
-# {'attributes': ['None'],
-#  'methods': ['as_integer_ratio',
-#              'bit_count',
-#              'bit_length',
-#              'conjugate',
-#              'denominator',
-#              'from_bytes',
-#              'imag',
-#              'numerator',
-#              'real',
-#              'to_bytes'],
-#  'module': None,
-#  'type': 'int'}
+print(number_info)
