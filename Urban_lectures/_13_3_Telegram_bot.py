@@ -10,6 +10,25 @@ dp = Dispatcher(
 )
 
 
+@dp.message_handler(text = ['Urban', 'xxx'])
+async def urban_msg(message):
+    print('Мы получили сообщение Urban')
+    await message.answer('Ответ на сообщение Urban или xxx')
+
+
+@dp.message_handler(commands=['start'])
+async def cmd_start(message):
+    print('Мы получили команду start')
+    await message.answer('Ответ на команду start')
+
+
+@dp.message_handler()
+async def all_messages(message):
+    print("Мы получили необработанное сообщение!")
+    await message.answer(f'Зеркальный ответ {message.text}')
+    await message.answer(message.text.upper())
+
+
 if __name__ == '__main__':
     executor.start_polling(
         dispatcher=dp,

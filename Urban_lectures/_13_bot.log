@@ -1,0 +1,9 @@
+2025-01-18 19:56:29,382 | aiogram | Bot: UrbanPythonBot [@Urban_Ilyinykh_bot] | 
+2025-01-18 19:56:29,500 | aiogram | Updates were skipped successfully. | 
+2025-01-18 19:56:29,501 | aiogram.dispatcher.dispatcher | Start polling. | 
+2025-01-18 19:56:59,069 | aiogram.contrib.middlewares.logging | Received message [ID:766] in chat [private:5109824805] | 
+2025-01-18 19:56:59,190 | aiogram.contrib.middlewares.logging | Process update [ID:611540424]: [success] (in 121 ms) | 
+2025-01-18 19:57:02,136 | aiogram.contrib.middlewares.logging | Received message [ID:768] in chat [private:5109824805] | 
+2025-01-18 19:57:02,229 | aiogram.contrib.middlewares.logging | Process update [ID:611540425]: [success] (in 93 ms) | 
+2025-01-18 19:57:08,057 | aiogram.dispatcher.dispatcher | Stop polling... | 
+2025-01-18 19:57:08,057 | aiogram | Goodbye! | 

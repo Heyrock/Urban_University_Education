@@ -1,14 +1,8 @@
 import logging
 import unittest
+
 import module_12_4_to_be_checked as file
 
-logging.basicConfig(
-    level=logging.INFO,
-    filemode='w',
-    filename='runner_tests_1.log',
-    encoding='UTF-8',
-    format='%(asctime)s | %(levelname)s | %(message)s',
-)
 
 class RunnerTest(unittest.TestCase):
     is_frozen = False
@@ -27,8 +21,8 @@ class RunnerTest(unittest.TestCase):
                 runner.walk()
             self.assertEqual(runner.distance, 50)
             logging.info(msg='"test_walk" выполнен успешно')
-        except Exception as e:
-            logging.warning("Неверная скорость для Runner: %s", e, exc_info=True)
+        except:
+            logging.warning(msg='Неверная скорость для Runner')
 
     @unittest.skipIf(
         condition=is_frozen,
@@ -41,8 +35,8 @@ class RunnerTest(unittest.TestCase):
                 runner.run()
             self.assertEqual(runner.distance, 100)
             logging.info(msg='"test_run" выполнен успешно')
-        except Exception as e:
-            logging.warning("Неверный тип данных для объекта Runner: %s", e, exc_info=True)
+        except:
+            logging.warning(msg='Неверный тип данных для объекта Runner')
 
     @unittest.skipIf(
         condition=is_frozen,
@@ -58,6 +52,15 @@ class RunnerTest(unittest.TestCase):
             runner_1.distance,
             runner_2.distance,
         )
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    filemode='w',
+    filename='runner_tests_1.log',
+    encoding='UTF-8',
+    format='%(asctime)s | %(levelname)s | %(message)s',
+)
 
 if __name__ == '__main__':
     unittest.main()

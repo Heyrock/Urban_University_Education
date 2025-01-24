@@ -1,31 +1,11 @@
-import re
-import inspect
+def div(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        return 'Деление на ноль'
 
-num = 42
-x = str(type(num))
-pattern_1 = re.compile('<class ')
-pattern_2 = re.compile('>')
-x = pattern_1.sub('', x)
-x = pattern_2.sub('', x)
-# print(x)
-
-# <class 'int'>
-
-class SomeClass:
-    def __init__(self):
-        self.name = 'Vasya'
-
-    def some_func(self):
-        print('hi')
-
-# print(type(SomeClass.name))
-# print(type(SomeClass.some_func))
-
-instance = SomeClass()
-# print(instance.__dict__)
-num = 42
-# print(inspect.getsourcefile(num))
-print(__name__)
-
-# print(path)
-# print(inspect.getmodulename(path))
+try:
+    x, y = map(int, input().split()) # 1 0
+    print(div(x, y))
+except ValueError as z:
+    print(z)

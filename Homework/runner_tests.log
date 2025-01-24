@@ -1,4 +1,4 @@
-2025-01-14 13:09:14,197 | WARNING | Неверный тип данных для объекта Runner: Имя может быть только строкой, передано bool
+2025-01-14 13:36:56,769 | WARNING | Неверный тип данных для объекта Runner: Имя может быть только строкой, передано bool
 Traceback (most recent call last):
   File "C:\Users\Ром\Documents\Urban_1\Homework\tests_12_4.py", line 85, in test_run
     runner = file.Runner(name=True)
@@ -6,11 +6,3 @@ Traceback (most recent call last):
   File "C:\Users\Ром\Documents\Urban_1\Homework\module_12_4_to_be_checked.py", line 6, in __init__
     raise TypeError(f'Имя может быть только строкой, передано {type(name).__name__}')
 TypeError: Имя может быть только строкой, передано bool
-2025-01-14 13:09:14,199 | WARNING | Неверная скорость для Runner: Скорость не может быть отрицательной, сейчас -1
-Traceback (most recent call last):
-  File "C:\Users\Ром\Documents\Urban_1\Homework\tests_12_4.py", line 65, in test_walk
-    runner = file.Runner(
-             ^^^^^^^^^^^^
-  File "C:\Users\Ром\Documents\Urban_1\Homework\module_12_4_to_be_checked.py", line 11, in __init__
-    raise ValueError(f'Скорость не может быть отрицательной, сейчас {speed}')
-ValueError: Скорость не может быть отрицательной, сейчас -1
