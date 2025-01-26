@@ -55,41 +55,41 @@
 
 import sqlite3
 
-connection = sqlite3.connect('not_telegram.db')
-# connection = sqlite3.connect('module_14_3_DB.db')
+# connection = sqlite3.connect('not_telegram.db')
+connection = sqlite3.connect('module_14_3_DB.db')
 cursor = connection.cursor()
 
-# создание таблицы
-cursor.execute(
-    'CREATE TABLE IF NOT EXISTS Users('
-    'id INTEGER PRIMARY KEY,'
-    'username TEXT NOT NULL,'
-    'email TEXT NOT NULL,'
-    'age INTEGER,'
-    'balance INTEGER NOT NULL'
-    ')'
-)
-
-# добавление 10 пользователей в таблицу
-for i in range(1, 11):
-    cursor.execute(
-        'INSERT INTO Users (username, email, age, balance) '
-        'VALUES (?, ?, ?, ?)',
-        (f'User{i}', f'example{i}@gmail.com', str(i * 10), '1000')
-    )
-
-# меняем каждому нечетному пользователю баланс на 500
-cursor.execute(
-    'UPDATE Users SET balance = ? WHERE id % 2 != 0',
-    ('500',)
-)
-
-# удаляем первого и каждого третьего за ним (1, 4, 7, 10)
-for i in range(1, 11, 3):
-    cursor.execute(
-        'DELETE FROM Users WHERE id = ?',
-        (str(i),)
-    )
+# # создание таблицы
+# cursor.execute(
+#     'CREATE TABLE IF NOT EXISTS Users('
+#     'id INTEGER PRIMARY KEY,'
+#     'username TEXT NOT NULL,'
+#     'email TEXT NOT NULL,'
+#     'age INTEGER,'
+#     'balance INTEGER NOT NULL'
+#     ')'
+# )
+#
+# # добавление 10 пользователей в таблицу
+# for i in range(1, 11):
+#     cursor.execute(
+#         'INSERT INTO Users (username, email, age, balance) '
+#         'VALUES (?, ?, ?, ?)',
+#         (f'User{i}', f'example{i}@gmail.com', str(i * 10), '1000')
+#     )
+#
+# # меняем каждому нечетному пользователю баланс на 500
+# cursor.execute(
+#     'UPDATE Users SET balance = ? WHERE id % 2 != 0',
+#     ('500',)
+# )
+#
+# # удаляем первого и каждого третьего за ним (1, 4, 7, 10)
+# for i in range(1, 11, 3):
+#     cursor.execute(
+#         'DELETE FROM Users WHERE id = ?',
+#         (str(i),)
+#     )
 
 # вывести всех, кроме age = 60
 cursor.execute(
